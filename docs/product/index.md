@@ -1,15 +1,11 @@
-# Product overview
+# Product
 
-This section documents the commercial and packaging model of ApexTalenti.
+This section defines the customer-facing product, independent of internal implementation details.
 
-## Scope
+ApexTalenti offers three SKUs:
 
-- Product catalog design.
-- SKU structure and packaging rules.
-- Subscription model and lifecycle expectations.
-- Commercial assumptions that affect platform behavior.
+- **Basic**: Phase 1, implemented.
+- **Premium**: Phase 2, visible but not yet implemented.
+- **Enterprise**: Phase 2, visible but not yet implemented.
 
-## Documents
-
-- `skus.md` for product and SKU definitions.
-- `subscription-model.md` for subscription lifecycle and pricing logic.
+All SKUs share the same core idea: a “launch package” that includes a domain, a static site, and a branded business email address, sold on an annual subscription basis.

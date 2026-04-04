@@ -1,16 +1,14 @@
-# Decisions overview
+# Decisions
 
-This section contains architecture decision records for ApexTalenti.
+This section contains Architecture Decision Records (ADRs) that capture important design choices.
 
-## Purpose
+Each ADR:
 
-ADRs capture the context, options considered, decision taken, and consequences.
+- states the context and problem
+- records alternatives considered
+- documents the final decision and its rationale
 
-## Current records
+Existing ADRs:
 
-- `adr-001-docs-stack.md`
-- `adr-002-crm-agnostic-model.md`
-
-## Guidance
-
-Create a new ADR whenever a platform decision has meaningful technical, operational, or product impact.
+- [ADR-001 Docs stack](adr-001-docs-stack.md)
+- [ADR-002 CRM agnostic model](adr-002-crm-agnostic-model.md)

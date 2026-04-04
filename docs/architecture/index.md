@@ -1,16 +1,16 @@
-# Architecture overview
+# Architecture
 
-This section describes the ApexTalenti system at a high level.
+This section describes the overall architecture of ApexTalenti: how services are separated, how they communicate, and how they are deployed.
 
-## Scope
+The design aims for:
 
-- Overall platform purpose.
-- Major services and ownership boundaries.
-- Deployment topology across environments.
-- Cross-cutting concerns such as security, observability, and integration patterns.
+- Clear service boundaries between the admin backend, workflow engine, operational datastore, content generation, and provider adapters.
+- A **CRM-agnostic core** so that no specific CRM is required in Phase 1.
+- A deployment model that fits a Proxmox-based homelab while remaining portable to cloud infrastructure later on.
 
-## Documents
+Use the subsections below for details:
 
-- `overview.md` for the high-level architecture.
-- `service-boundaries.md` for service responsibilities and integration seams.
-- `deployment-topology.md` for infrastructure and runtime layout.
+- [System overview](overview.md)
+- [Service boundaries](service-boundaries.md)
+- [Deployment topology](deployment-topology.md)
+- [Diagram playground](diagram-playground.md)

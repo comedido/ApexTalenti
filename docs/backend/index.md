@@ -1,17 +1,14 @@
-# Backend overview
+# Backend
 
-This section covers the internal platform model and execution logic.
+The backend is responsible for:
 
-## Scope
+- Enforcing the data model and state transitions.
+- Exposing internal APIs used by the form capture site and orchestration workflows.
+- Coordinating with NocoDB, n8n, the HTML generator, and external providers.
 
-- Core entities and relationships.
-- State transitions and lifecycle orchestration.
-- API contracts and integration surfaces.
-- Workflow behavior and async processing.
+This section describes:
 
-## Documents
-
-- `data-model.md` for canonical entities and relationships.
-- `status-machine.md` for lifecycle state transitions.
-- `api-contracts.md` for inbound and outbound APIs.
-- `workflows.md` for orchestration and automation behavior.
+- [Data model](data-model.md)
+- [Status machine](status-machine.md)
+- [API contracts](api-contracts.md)
+- [Workflows](workflows.md)
