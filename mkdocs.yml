@@ -68,21 +68,27 @@ extra_css:
   - stylesheets/extra.css
 nav:
   - Home: index.md
+  nav:
+  - Home: index.md
   - Architecture:
       - Overview: architecture/index.md
       - System overview: architecture/overview.md
       - Service boundaries: architecture/service-boundaries.md
       - Deployment topology: architecture/deployment-topology.md
+      - Frontend-backend interaction: architecture/frontend-backend-interaction.md
       - Diagram playground: architecture/diagram-playground.md
   - Product:
       - Overview: product/index.md
       - SKUs: product/skus.md
       - Subscription model: product/subscription-model.md
+      - Web application UI: product/webapp-ui.md
   - Backend:
       - Overview: backend/index.md
       - Data model: backend/data-model.md
       - Status machine: backend/status-machine.md
       - API contracts: backend/api-contracts.md
+      - Application API: backend/application-api.md
+      - Form validation: backend/form-validation.md
       - Workflows: backend/workflows.md
   - Operations:
       - Overview: operations/index.md
