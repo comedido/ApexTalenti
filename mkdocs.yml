@@ -1,0 +1,96 @@
+site_name: ApexTalenti
+site_description: Technical documentation for ApexTalenti
+site_url: http://127.0.0.1:8000
+repo_url: https://github.com/comedido/ApexTalenti
+repo_name: ApexTalenti
+remote_branch: main
+edit_uri: edit/main/docs/
+theme:
+  name: material
+  logo: images/logo.svg
+  favicon: images/logo.svg
+  icon:
+    repo: fontawesome/brands/github
+  features:
+    - navigation.sections
+    - navigation.indexes
+    - navigation.expand
+    - navigation.top
+    - navigation.instant
+    - header.autohide
+    - content.code.copy
+    - content.action.edit
+    - content.action.view
+    - search.suggest
+    - search.highlight
+  palette:
+    - scheme: slate
+      primary: custom
+      accent: custom
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
+    - scheme: default
+      primary: blue grey
+      accent: deep purple
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
+plugins:
+  - search
+  - git-revision-date-localized:
+      enable_creation_date: true
+      fallback_to_build_date: true
+      type: timeago
+      locale: en
+markdown_extensions:
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.highlight
+  - pymdownx.inlinehilite
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.details
+extra_css:
+  - stylesheets/extra.css
+nav:
+  - Home: index.md
+  - Architecture:
+      - Overview: architecture/index.md
+      - System overview: architecture/overview.md
+      - Service boundaries: architecture/service-boundaries.md
+      - Deployment topology: architecture/deployment-topology.md
+      - Diagram playground: architecture/diagram-playground.md
+  - Product:
+      - Overview: product/index.md
+      - SKUs: product/skus.md
+      - Subscription model: product/subscription-model.md
+  - Backend:
+      - Overview: backend/index.md
+      - Data model: backend/data-model.md
+      - Status machine: backend/status-machine.md
+      - API contracts: backend/api-contracts.md
+      - Workflows: backend/workflows.md
+  - Operations:
+      - Overview: operations/index.md
+      - Secrets: operations/secrets.md
+      - Runbooks: operations/runbooks.md
+      - Renewals: operations/renewals.md
+  - Decisions:
+      - Overview: decisions/index.md
+      - ADR-001 Docs stack: decisions/adr-001-docs-stack.md
+      - ADR-002 CRM agnostic model: decisions/adr-002-crm-agnostic-model.md
+
+extra:
+  generator: false
