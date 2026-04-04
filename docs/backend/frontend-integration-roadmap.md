@@ -1,0 +1,62 @@
+# Frontend integration roadmap
+
+## Purpose
+
+This document describes the staged integration path between the ApexTalenti frontend UI and the backend services.
+
+## Current status
+
+### Iteration 1
+
+Implemented:
+
+- frontend application created
+- public page and form rendered
+- placeholder submit flow working
+
+Not implemented:
+
+- backend submission
+- validation contract exchange
+- persistence
+- workflow trigger
+
+## Planned integration stages
+
+### Iteration 2: Client-side validation
+
+- define frontend request type
+- define validation rules
+- normalize field structure
+- prepare payload shape to match backend contract
+
+### Iteration 3: Placeholder backend endpoint
+
+- create backend app skeleton
+- expose minimal `POST /api/applications`
+- return mock success response
+- connect frontend submit action to backend
+
+### Iteration 4: Real application persistence
+
+- persist application to backend datastore
+- return application reference
+- show backend-driven success state
+
+### Iteration 5: Error handling
+
+- validation errors
+- conflict errors
+- retryable failures
+- user-friendly error states
+
+## Boundary rule
+
+The frontend communicates only with the Node/TypeScript backend.  
+It does not communicate directly with:
+
+- NocoDB
+- n8n
+- provider APIs
+
+This rule should remain in place throughout future iterations.

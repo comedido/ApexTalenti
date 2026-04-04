@@ -73,6 +73,7 @@ nav:
       - System overview: architecture/overview.md
       - Service boundaries: architecture/service-boundaries.md
       - Deployment topology: architecture/deployment-topology.md
+      - Frontend runtime: architecture/frontend-runtime.md
       - Frontend-backend interaction: architecture/frontend-backend-interaction.md
       - Diagram playground: architecture/diagram-playground.md
   - Product:
@@ -80,6 +81,7 @@ nav:
       - SKUs: product/skus.md
       - Subscription model: product/subscription-model.md
       - Web application UI: product/webapp-ui.md
+      - Web application implementation: product/webapp-implementation.md
   - Backend:
       - Overview: backend/index.md
       - Data model: backend/data-model.md
@@ -87,6 +89,7 @@ nav:
       - API contracts: backend/api-contracts.md
       - Application API: backend/application-api.md
       - Form validation: backend/form-validation.md
+      - Frontend integration roadmap: backend/frontend-integration-roadmap.md
       - Workflows: backend/workflows.md
   - Operations:
       - Overview: operations/index.md
@@ -97,6 +100,5 @@ nav:
       - Overview: decisions/index.md
       - ADR-001 Docs stack: decisions/adr-001-docs-stack.md
       - ADR-002 CRM agnostic model: decisions/adr-002-crm-agnostic-model.md
-
 extra:
   generator: false

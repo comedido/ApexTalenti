@@ -12,3 +12,9 @@ This section describes:
 - [Status machine](status-machine.md)
 - [API contracts](api-contracts.md)
 - [Workflows](workflows.md)
+
+## Frontend integration roadmap
+
+Frontend-to-backend integration is being introduced in controlled steps, starting from a UI-only placeholder flow.
+
+See [Frontend integration roadmap](frontend-integration-roadmap.md).

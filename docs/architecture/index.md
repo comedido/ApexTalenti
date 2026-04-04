@@ -14,3 +14,9 @@ Use the subsections below for details:
 - [Service boundaries](service-boundaries.md)
 - [Deployment topology](deployment-topology.md)
 - [Diagram playground](diagram-playground.md)
+
+## Frontend runtime
+
+The public frontend runs in a dedicated LXC runtime so that UI development can progress independently from the backend and workflow stack.
+
+See [Frontend runtime](frontend-runtime.md) for the runtime inventory, network details, and source references.
