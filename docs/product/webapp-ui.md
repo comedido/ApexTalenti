@@ -237,7 +237,7 @@ Why:
 
 - **Vite + React + TypeScript**
 
-This is also valid, but Next.js gives you a smoother path if you later want:
+This is also valid, but Next.js gives a smoother path if later want:
 - admin pages
 - authenticated dashboards
 - server components

@@ -28,7 +28,7 @@ The core services are separated by responsibility to keep the system maintainabl
   - project domains, DNS, sites, email
   - provisioning jobs/events
 - Operational UI for browsing and editing records.
-- REST API for backend and n8n to read/write data. [web:175]
+- REST API for backend and n8n to read/write data.
 
 **Does not own**
 
@@ -39,7 +39,7 @@ The core services are separated by responsibility to keep the system maintainabl
 
 **Responsibilities**
 
-- Webhook endpoints for automation triggers. [web:191]
+- Webhook endpoints for automation triggers.
 - Scheduling and periodic jobs (e.g., renewals).
 - Retry and error handling flows.
 - Notifications and manual escalation flows.
@@ -53,7 +53,7 @@ The core services are separated by responsibility to keep the system maintainabl
 
 **Responsibilities**
 
-- Generate HTML landing content for a project using local models. [cite:31]
+- Generate HTML landing content for a project using local models.
 - Maintain a simple API for the backend to request and receive assets.
 - Tag generated assets with version and checksums.
 
@@ -78,10 +78,10 @@ The core services are separated by responsibility to keep the system maintainabl
 
 **Responsibilities**
 
-- Vaultwarden or similar is used to store:
+- Local Vaultwarden instance is used to store:
   - provider API keys
   - mailbox credentials
   - temporary passwords
 - Only **references** to secrets are stored in NocoDB.
 
-This separation allows you to scale, swap, or replace services without rewriting the entire system.
+This separation allows to scale, swap, or replace services without rewriting the entire system.

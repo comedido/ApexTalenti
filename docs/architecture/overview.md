@@ -11,19 +11,19 @@ The system has six main components:
 1. **Admin Backend**  
    - Exposes HTTP APIs for the form capture website and internal tools.  
    - Normalizes incoming applications into provisioning jobs.  
-   - Encapsulates provider logic behind adapter interfaces.  
+   - Encapsulates provider logic behind adapter interfaces for abstraction.  
 
 2. **Operational Datastore (NocoDB)**  
    - Stores customers, applications, subscriptions, projects, and provisioning state.  
    - Provides a UI for inspecting and editing records.  
-   - Exposes REST APIs used by the backend and n8n. [web:175]
+   - Exposes REST APIs used by the backend and n8n.
 
 3. **Workflow Engine (n8n)**  
    - Manages webhooks, scheduled jobs, retry logic, and notifications.  
-   - Orchestrates long-running operations (e.g., provisioning, renewals) by calling the backend and NocoDB APIs. [web:191]
+   - Orchestrates long-running operations (e.g., provisioning, renewals) by calling the backend and NocoDB APIs.
 
 4. **Content Generation Service**  
-   - Wraps the local Ollama engine to produce static HTML landing pages based on project data. [cite:31]  
+   - Wraps the local Ollama engine to produce static HTML landing pages based on project data. 
    - Validates and version-tags generated assets.
 
 5. **Provider Adapter Layer**  

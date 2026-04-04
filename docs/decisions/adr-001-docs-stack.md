@@ -19,8 +19,8 @@ Use **MkDocs** with **Material for MkDocs** as the documentation stack.
 
 ## Rationale
 
-- MkDocs is designed for Markdown-based documentation and is simple to configure. [web:192]
-- Material for MkDocs provides a high-quality UI, navigation features, and built-in support for a technical audience. [web:186]
+- MkDocs is designed for Markdown-based documentation and is simple to configure.
+- Material for MkDocs provides a high-quality UI, navigation features, and built-in support for a technical audience.
 - The docs can be stored alongside code in a single Git repository.
 - The stack runs easily in a small container or VM for local preview.
 

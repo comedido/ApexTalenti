@@ -65,4 +65,4 @@ The backend uses a state machine to ensure provisioning steps occur in a predict
 - `completed` requires all of domain, DNS, email, and site verification to pass.
 - Failures move to `failed_retryable` or `failed_manual_review` depending on error type.
 
-n8n workflows and the Admin Backend are responsible for enforcing these transitions and persisting them to NocoDB. [web:191][web:175]
+n8n workflows and the Admin Backend are responsible for enforcing these transitions and persisting them to NocoDB.

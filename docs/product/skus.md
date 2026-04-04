@@ -39,7 +39,7 @@ ApexTalenti defines three SKUs with increasing levels of email and operational m
 
 **Technical characteristics (planned)**
 
-- Uses a mailbox provider that supports user creation via API.
+- Uses a mailbox provider that supports user creation via API. AWS WorkMail most probably.
 - Credentials stored as secret references in the backend.
 - Mailbox lifecycle (password resets, suspension, deletion) managed by the platform.
 

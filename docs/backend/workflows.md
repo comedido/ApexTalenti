@@ -1,6 +1,6 @@
 # Workflows
 
-n8n orchestrates the long-running and multi-step workflows in ApexTalenti. [web:191]
+n8n orchestrates the long-running and multi-step workflows in ApexTalenti.
 
 ## Key workflows
 
@@ -69,8 +69,8 @@ n8n orchestrates the long-running and multi-step workflows in ApexTalenti. [web:
 
 ## Implementation notes
 
-- Use n8n Webhook nodes to expose safe, documented entrypoints for external triggers. [web:191]
-- Use HTTP Request nodes to call the backend and NocoDB. [web:175]
+- Use n8n Webhook nodes to expose safe, documented entrypoints for external triggers.
+- Use HTTP Request nodes to call the backend and NocoDB.
 - Store idempotency keys for each provisioning step to avoid duplicate provider operations.
 
 Over time, additional workflows (e.g. upgrade Basic → Premium) can be added without changing the core data model.

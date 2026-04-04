@@ -13,7 +13,7 @@ Renewals are handled as scheduled workflows, driven by subscription dates.
 ## Implementation
 
 - n8n runs a scheduled workflow daily that:
-  - queries NocoDB for subscriptions nearing renewal, using the REST API. [web:175]
+  - queries NocoDB for subscriptions nearing renewal, using the REST API.
   - creates `renewal_jobs`.
   - coordinates external billing/payment if configured.
   - updates subscription fields and statuses.

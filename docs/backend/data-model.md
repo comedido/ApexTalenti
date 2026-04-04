@@ -1,6 +1,6 @@
 # Data model
 
-The ApexTalenti backend uses NocoDB as its initial operational datastore. [web:175]
+The ApexTalenti backend uses NocoDB as its initial operational datastore.
 
 ## Design principles
 
@@ -174,4 +174,4 @@ Jobs and events capture the history of provisioning and are used for retries and
 
 Represents scheduled renewal operations for subscriptions.
 
-The exact table definitions can be implemented as NocoDB tables with appropriate relationships and exposed over the NocoDB REST API. [web:175]
+The exact table definitions can be implemented as NocoDB tables with appropriate relationships and exposed over the NocoDB REST API.
