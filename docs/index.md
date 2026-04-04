@@ -9,6 +9,7 @@ Welcome to the ApexTalenti documentation portal.
 - Backend data model, workflows, and API contracts.
 - Operations, secrets handling, and renewals.
 - Key architecture decision records.
+- Other engineering aspects.
 
 ## Sections
 
