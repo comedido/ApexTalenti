@@ -6,31 +6,31 @@ This document tracks the implementation status of the public ApexTalenti web app
 
 ## Current milestone
 
-### Iteration 2: Controlled form with client-side validation
+### Iteration 3: SKU-aware form with placeholder API submission
 
 Implemented:
 
 - Node/TypeScript frontend app created in the main repository
 - Next.js App Router structure
 - Basic visual layout
-- SKU presentation for:
-  - Basic
-  - Premium
-  - Enterprise
-- Premium and Enterprise visible but not actionable
+- Basic SKU auto-selected in the form UI
+- Gradient highlight around the selected Basic SKU card
+- Premium and Enterprise visible with `Coming shortly` status pills
 - Controlled React form state
 - Local validation rules
 - Inline field-level validation messages
-- Local placeholder success state on submit
+- Local placeholder API submission using a Next.js route handler
+- Mock application reference returned to the UI
 - Source code committed and pushed to GitHub
 
 Not yet implemented:
 
-- backend API submission
-- shared backend schema package
-- persistence
-- backend-driven success state
-- workflow integration
+- separate backend application service
+- shared schema package across frontend and backend
+- persistent storage
+- NocoDB integration
+- n8n workflow trigger
+- backend-driven business validation
 
 ## Repository paths
 

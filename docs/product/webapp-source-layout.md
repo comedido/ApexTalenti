@@ -23,13 +23,16 @@ apps/web
 ├── public/
 └── src/
     ├── app/
+    │   ├── api/
+    │   │   └── applications/
+    │   │       └── route.ts
     │   ├── globals.css
     │   ├── layout.tsx
     │   └── page.tsx
     └── components/
         ├── ApplicationForm.tsx
         ├── Hero.tsx
-        ├── SkuCards.tsx
+        ├── applicationForm.types.ts
         └── applicationForm.validation.ts
 ```
 
