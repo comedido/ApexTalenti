@@ -68,8 +68,6 @@ extra_css:
   - stylesheets/extra.css
 nav:
   - Home: index.md
-  nav:
-  - Home: index.md
   - Architecture:
       - Overview: architecture/index.md
       - System overview: architecture/overview.md
