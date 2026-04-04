@@ -4,12 +4,47 @@ import { ChangeEvent, FormEvent, useMemo, useState } from "react";
 import {
   ApplicationFormErrors,
   ApplicationFormValues,
+  CreateApplicationRequest,
+  CreateApplicationResponse,
+  SkuValue,
+} from "./applicationForm.types";
+import {
   initialApplicationFormValues,
   normalizeApplicationFormValues,
   validateApplicationForm,
 } from "./applicationForm.validation";
 
 type TouchedState = Partial<Record<keyof ApplicationFormValues, boolean>>;
+
+const skuOptions: Array<{
+  value: SkuValue;
+  title: string;
+  description: string;
+  pill: string;
+  available: boolean;
+}> = [
+  {
+    value: "basic",
+    title: "Basic",
+    description: "Domain, static site, and branded business email presence.",
+    pill: "Available now",
+    available: true,
+  },
+  {
+    value: "premium",
+    title: "Premium",
+    description: "Dedicated standalone mailbox and stronger operational setup.",
+    pill: "Coming shortly",
+    available: false,
+  },
+  {
+    value: "enterprise",
+    title: "Enterprise",
+    description: "Advanced multi-mailbox and extended business setup.",
+    pill: "Coming shortly",
+    available: false,
+  },
+];
 
 export function ApplicationForm() {
   const [values, setValues] = useState<ApplicationFormValues>(
@@ -18,6 +53,9 @@ export function ApplicationForm() {
   const [errors, setErrors] = useState<ApplicationFormErrors>({});
   const [touched, setTouched] = useState<TouchedState>({});
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [serverMessage, setServerMessage] = useState("");
+  const [applicationRef, setApplicationRef] = useState<string | null>(null);
 
   const hasErrors = useMemo(() => {
     return Object.keys(validateApplicationForm(values)).length > 0;
@@ -34,6 +72,8 @@ export function ApplicationForm() {
     }));
 
     setSubmitted(false);
+    setServerMessage("");
+    setApplicationRef(null);
 
     if (touched[name as keyof ApplicationFormValues]) {
       const nextValues = {
@@ -58,10 +98,26 @@ export function ApplicationForm() {
     setErrors(validateApplicationForm(values));
   }
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  function handleSkuSelect(sku: SkuValue) {
+    if (sku !== "basic") return;
+
+    const nextValues = {
+      ...values,
+      sku,
+    };
+
+    setValues(nextValues);
+    setSubmitted(false);
+    setServerMessage("");
+    setApplicationRef(null);
+    setErrors(validateApplicationForm(nextValues));
+  }
+
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
     const allTouched: TouchedState = {
+      sku: true,
       fullName: true,
       email: true,
       brandName: true,
@@ -82,9 +138,58 @@ export function ApplicationForm() {
       return;
     }
 
-    setSubmitted(true);
+    const payload: CreateApplicationRequest = {
+      customer: {
+        displayName: normalizedValues.brandName,
+        primaryContactName: normalizedValues.fullName,
+        primaryContactEmail: normalizedValues.email,
+        billingEmail: normalizedValues.email,
+        countryCode: "ES",
+        language: "en",
+      },
+      application: {
+        brandName: normalizedValues.brandName,
+        activityType: normalizedValues.activityType,
+        activityDescription: normalizedValues.activityDescription,
+        desiredDomain: normalizedValues.desiredDomain,
+        sku: "basic",
+        consentAccepted: true,
+      },
+    };
 
-    console.log("Iteration 2 placeholder payload:", normalizedValues);
+    try {
+      setSubmitting(true);
+      setServerMessage("");
+      setApplicationRef(null);
+
+      const response = await fetch("/api/applications", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to submit placeholder application.");
+      }
+
+      const data = (await response.json()) as CreateApplicationResponse;
+
+      setSubmitted(true);
+      setServerMessage(data.message);
+      setApplicationRef(data.applicationId);
+      console.log("Iteration 3 placeholder API response:", data);
+    } catch (error) {
+      setSubmitted(false);
+      setServerMessage(
+        error instanceof Error
+          ? error.message
+          : "Unexpected error during placeholder submission.",
+      );
+    } finally {
+      setSubmitting(false);
+    }
   }
 
   function getFieldError(field: keyof ApplicationFormValues) {
@@ -98,13 +203,52 @@ export function ApplicationForm() {
         <p className="eyebrow">Phase 1 application</p>
         <h2>Apply for the Basic package</h2>
         <p>
-          Fill in the form below to create a new application. This iteration
-          validates the form locally and does not yet submit data to the
-          backend.
+          This iteration includes SKU selection UI and a local placeholder API
+          submission using a Next.js route handler.
         </p>
       </div>
 
       <form className="application-form" onSubmit={handleSubmit} noValidate>
+        <fieldset className="sku-selector">
+          <legend>Select your package</legend>
+
+          <div className="sku-grid sku-grid--selectable">
+            {skuOptions.map((sku) => {
+              const isSelected = values.sku === sku.value;
+
+              return (
+                <button
+                  key={sku.value}
+                  type="button"
+                  className={[
+                    "sku-card",
+                    "sku-card--interactive",
+                    isSelected ? "sku-card--selected" : "",
+                    !sku.available ? "sku-card--disabled" : "",
+                  ]
+                    .filter(Boolean)
+                    .join(" ")}
+                  onClick={() => handleSkuSelect(sku.value)}
+                  aria-pressed={isSelected}
+                  aria-disabled={!sku.available}
+                >
+                  <div className="sku-card__header">
+                    <h3>{sku.title}</h3>
+                    <span className="badge">{sku.pill}</span>
+                  </div>
+                  <p>{sku.description}</p>
+                </button>
+              );
+            })}
+          </div>
+
+          {getFieldError("sku") ? (
+            <span className="field-error" id="sku-error">
+              {getFieldError("sku")}
+            </span>
+          ) : null}
+        </fieldset>
+
         <div className="field-grid">
           <label>
             Full name
@@ -239,24 +383,38 @@ export function ApplicationForm() {
 
         <div className="form-meta">
           <p className="helper-text">
-            This form is validated locally only. Submission is still a
-            placeholder in this iteration.
+            The form now posts to a local placeholder API route and returns a
+            mock application reference.
           </p>
         </div>
 
         <div className="form-actions">
           <button
             type="submit"
-            disabled={hasErrors && Object.keys(touched).length > 0}
+            disabled={
+              submitting || (hasErrors && Object.keys(touched).length > 0)
+            }
           >
-            Submit application
+            {submitting ? "Submitting..." : "Submit application"}
           </button>
         </div>
 
-        {submitted ? (
-          <div className="success-message" role="status" aria-live="polite">
-            Form validated successfully. Backend integration comes in a later
-            iteration.
+        {serverMessage ? (
+          <div
+            className={submitted ? "success-message" : "error-message"}
+            role="status"
+            aria-live="polite"
+          >
+            <strong>{submitted ? "Success:" : "Submission error:"}</strong>{" "}
+            {serverMessage}
+            {applicationRef ? (
+              <>
+                <br />
+                <span className="reference-text">
+                  Application reference: <code>{applicationRef}</code>
+                </span>
+              </>
+            ) : null}
           </div>
         ) : null}
       </form>

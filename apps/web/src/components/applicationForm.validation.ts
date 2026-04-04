@@ -1,17 +1,10 @@
-export type ApplicationFormValues = {
-  fullName: string;
-  email: string;
-  brandName: string;
-  desiredDomain: string;
-  activityType: string;
-  activityDescription: string;
-};
-
-export type ApplicationFormErrors = Partial<
-  Record<keyof ApplicationFormValues, string>
->;
+import {
+  ApplicationFormErrors,
+  ApplicationFormValues,
+} from "./applicationForm.types";
 
 export const initialApplicationFormValues: ApplicationFormValues = {
+  sku: "basic",
   fullName: "",
   email: "",
   brandName: "",
@@ -41,6 +34,10 @@ export function validateApplicationForm(
   values: ApplicationFormValues,
 ): ApplicationFormErrors {
   const errors: ApplicationFormErrors = {};
+
+  if (values.sku !== "basic") {
+    errors.sku = "Only the Basic SKU is available in this phase.";
+  }
 
   if (!values.fullName.trim()) {
     errors.fullName = "Full name is required.";
@@ -89,6 +86,7 @@ export function normalizeApplicationFormValues(
   values: ApplicationFormValues,
 ): ApplicationFormValues {
   return {
+    sku: "basic",
     fullName: values.fullName.trim(),
     email: values.email.trim().toLowerCase(),
     brandName: values.brandName.trim(),

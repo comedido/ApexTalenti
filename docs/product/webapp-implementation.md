@@ -6,7 +6,7 @@ This document tracks the implementation status of the public ApexTalenti web app
 
 ## Current milestone
 
-### Iteration 1: Minimal working form
+### Iteration 2: Controlled form with client-side validation
 
 Implemented:
 
@@ -18,17 +18,18 @@ Implemented:
   - Premium
   - Enterprise
 - Premium and Enterprise visible but not actionable
-- Basic form rendered and usable
+- Controlled React form state
+- Local validation rules
+- Inline field-level validation messages
 - Local placeholder success state on submit
 - Source code committed and pushed to GitHub
 
 Not yet implemented:
 
 - backend API submission
-- shared validation schema
+- shared backend schema package
 - persistence
-- error mapping from backend
-- domain checks
+- backend-driven success state
 - workflow integration
 
 ## Repository paths

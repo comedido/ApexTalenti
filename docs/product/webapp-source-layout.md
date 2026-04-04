@@ -29,7 +29,8 @@ apps/web
     └── components/
         ├── ApplicationForm.tsx
         ├── Hero.tsx
-        └── SkuCards.tsx
+        ├── SkuCards.tsx
+        └── applicationForm.validation.ts
 ```
 
 ## Key files

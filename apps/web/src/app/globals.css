@@ -234,3 +234,76 @@ button:disabled {
   opacity: 0.6;
   cursor: not-allowed;
 }
+
+.sku-selector {
+  border: 0;
+  padding: 0;
+  margin: 0 0 8px;
+}
+
+.sku-selector legend {
+  margin-bottom: 14px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.sku-grid--selectable {
+  margin-top: 0;
+  margin-bottom: 8px;
+}
+
+.sku-card--interactive {
+  position: relative;
+  text-align: left;
+  width: 100%;
+  padding: 20px;
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease,
+    border-color 180ms ease;
+}
+
+.sku-card--interactive:hover {
+  transform: translateY(-1px);
+}
+
+.sku-card--interactive h3 {
+  margin: 0;
+  font-size: 1.15rem;
+}
+
+.sku-card--selected {
+  border: 1px solid transparent;
+  background:
+    linear-gradient(var(--surface), var(--surface)) padding-box,
+    linear-gradient(135deg, #14b8a6, #60a5fa, #a78bfa) border-box;
+  box-shadow:
+    0 10px 30px rgba(96, 165, 250, 0.14),
+    0 0 0 4px rgba(20, 184, 166, 0.08);
+}
+
+.sku-card--selected .badge {
+  background: rgba(20, 184, 166, 0.12);
+  color: #0f766e;
+}
+
+.sku-card--disabled {
+  opacity: 0.88;
+}
+
+.sku-card--disabled[aria-disabled="true"] {
+  cursor: not-allowed;
+}
+
+.error-message {
+  border: 1px solid #f5c2c7;
+  background: #fff5f5;
+  color: #8a1c1c;
+  padding: 14px 16px;
+  border-radius: 12px;
+}
+
+.reference-text {
+  display: inline-block;
+  margin-top: 8px;
+}

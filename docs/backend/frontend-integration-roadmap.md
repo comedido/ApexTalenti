@@ -6,18 +6,21 @@ This document describes the staged integration path between the ApexTalenti fron
 
 ## Current status
 
-### Iteration 1
+### Iteration 2
 
 Implemented:
 
 - frontend application created
 - public page and form rendered
+- controlled client-side form state
+- local validation rules
+- inline validation feedback
 - placeholder submit flow working
 
 Not implemented:
 
 - backend submission
-- validation contract exchange
+- shared schema package
 - persistence
 - workflow trigger
 
@@ -52,7 +55,7 @@ Not implemented:
 
 ## Boundary rule
 
-The frontend communicates only with the Node/TypeScript backend.  
+The frontend communicates only with the Node/TypeScript backend.
 It does not communicate directly with:
 
 - NocoDB
