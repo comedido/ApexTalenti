@@ -11,6 +11,7 @@ theme:
   favicon: images/logo.svg
   icon:
     repo: fontawesome/brands/github
+  custom_dir: overrides
   features:
     - navigation.sections
     - navigation.indexes
@@ -44,6 +45,7 @@ plugins:
       type: timeago
       locale: en
 markdown_extensions:
+  - meta
   - admonition
   - attr_list
   - def_list

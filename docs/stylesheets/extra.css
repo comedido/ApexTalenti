@@ -54,3 +54,19 @@
 .md-top {
   border-radius: 999px;
 }
+
+.apex-last-updated {
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255,255,255,.08);
+  color: var(--md-default-fg-color--light);
+  font-size: .75rem;
+  letter-spacing: .02em;
+}
+.apex-last-updated .git-revision-date-localized-plugin {
+  color: #00e5ff;
+  font-weight: 600;
+}
+.mermaid {
+  text-align: center;
+}

@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block content %}
+  {{ super() }}
+  {% if page.meta.git_revision_date_localized %}
+  <div class="apex-last-updated">
+    Last updated: {{ page.meta.git_revision_date_localized }}
+  </div>
+  {% endif %}
+{% endblock %}
