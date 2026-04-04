@@ -82,6 +82,7 @@ nav:
       - Subscription model: product/subscription-model.md
       - Web application UI: product/webapp-ui.md
       - Web application implementation: product/webapp-implementation.md
+      - Web application source layout: product/webapp-source-layout.md
   - Backend:
       - Overview: backend/index.md
       - Data model: backend/data-model.md
