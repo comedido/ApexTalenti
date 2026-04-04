@@ -1,0 +1,29 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Next.js: dev server",
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "cd apps/web && npm run dev"
+    },
+    {
+      "name": "Next.js: browser",
+      "type": "chrome",
+      "request": "launch",
+      "url": "http://localhost:3000",
+      "webRoot": "${workspaceFolder}/apps/web"
+    },
+    {
+      "name": "Next.js: full stack",
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "cd apps/web && npm run dev",
+      "serverReadyAction": {
+        "pattern": ".*(http://localhost:3000).*",
+        "uriFormat": "%s",
+        "action": "debugWithChrome"
+      }
+    }
+  ]
+}
