@@ -15,3 +15,9 @@ All SKUs share the same core idea: a “launch package” that includes a domain
 The public ApexTalenti web application is being implemented incrementally inside the main repository.
 
 See [Web application implementation](webapp-implementation.md) for the current milestone, behavior, and source file references.
+
+## Web application source layout
+
+The frontend source code is tracked in the documentation so implementation structure remains visible over time.
+
+See [Web application source layout](webapp-source-layout.md).
