@@ -8,7 +8,7 @@ The system is designed to be:
 - **CRM-agnostic**: the core backend does not depend on any specific CRM; CRM integration is an optional adapter.
 - **Workflow-driven**: n8n orchestrates long-running jobs, retries, and operator-facing automation.
 - **Database-light**: NocoDB provides the initial operational datastore and UI.
-- **Homelab-ready**: services run in Proxmox LXC/VMs, using infrastructure you already control.
+- **Homelab-ready**: services run in Proxmox LXC/VMs, using infrastructure you locally controlled.
 
 ## Phase 1 scope
 
