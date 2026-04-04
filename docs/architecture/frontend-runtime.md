@@ -13,13 +13,13 @@ The frontend is developed and hosted in its own dedicated LXC so it can evolve i
 - **Runtime name**: `apextalenti-web`
 - **Purpose**: development and initial hosting of the ApexTalenti public web UI
 - **Platform**: Proxmox LXC
-- **OS**: `ubuntu-24.04`
+- **OS**: `Ubuntu 24.04.04 LTS`
 - **Internal IP address**: `10.10.10.118`
 - **vCPU**: `2`
 - **RAM**: `2048`
 - **Disk**: `8`
-- **Node.js version**: `TO_BE_FILLED`
-- **npm version**: `TO_BE_FILLED`
+- **Node.js version**: `24.14.1`
+- **npm version**: `11.12.1`
 
 ## Repository layout
 
