@@ -20,4 +20,4 @@ Welcome to the ApexTalenti documentation portal.
 
 ## Audience
 
-This site is intended for engineers, architects, operators, and stakeholders working on ApexTalenti.
+This site is intended for engineers, architects, operators, and stakeholders working on ApexTalenti. Keep code and have fun !
