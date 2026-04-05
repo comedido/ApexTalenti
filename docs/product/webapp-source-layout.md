@@ -14,35 +14,45 @@ It should be updated whenever the frontend structure changes significantly.
 ## Current file layout
 
 ```text
-apps/web
-├── README.md
-├── .env.local
-├── next.config.ts
-├── package.json
-├── tsconfig.json
-├── eslint.config.mjs
-├── public/
-└── src/
-    ├── app/
-    │   ├── api/
-    │   │   └── applications/
-    │   │       └── route.ts
-    │   ├── globals.css
-    │   ├── layout.tsx
-    │   └── page.tsx
-    ├── components/
-    │   └── Hero.tsx
-    ├── features/
-    │   └── application-form/
-    │       ├── components/
-    │       │   └── ApplicationForm.tsx
-    │       ├── lib/
-    │       │   ├── api.ts
-    │       │   └── validation.ts
-    │       └── types/
-    │           └── index.ts
-    └── lib/
-        └── config.ts
+ApexTalenti
+├── apps/
+│   ├── api/
+│   │   ├── package.json
+│   │   ├── tsconfig.json
+│   │   └── src/
+│   │       ├── config.ts
+│   │       ├── lib/
+│   │       │   └── nocodb.ts
+│   │       ├── routes/
+│   │       │   └── applications.ts
+│   │       └── server.ts
+│   └── web/
+│       ├── .env.local
+│       ├── package.json
+│       ├── tsconfig.json
+│       └── src/
+│           ├── app/
+│           │   ├── globals.css
+│           │   ├── layout.tsx
+│           │   └── page.tsx
+│           ├── components/
+│           │   └── Hero.tsx
+│           ├── features/
+│           │   └── application-form/
+│           │       ├── components/
+│           │       │   └── ApplicationForm.tsx
+│           │       ├── lib/
+│           │       │   ├── api.ts
+│           │       │   └── validation.ts
+│           │       └── types/
+│           │           └── index.ts
+│           └── lib/
+│               └── config.ts
+└── packages/
+    └── contracts/
+        ├── package.json
+        └── src/
+            └── index.ts
 ```
 
 ## Key files

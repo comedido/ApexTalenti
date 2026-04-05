@@ -6,34 +6,28 @@ This document tracks the implementation status of the public ApexTalenti web app
 
 ## Current milestone
 
-### Iteration 5: Shared schema validation and professionalized request page
+### Iteration 6: Real backend service and NocoDB persistence
 
 Implemented:
 
-- Node/TypeScript frontend application in the monorepo
-- Next.js App Router structure
-- Basic SKU auto-selected in the UI
-- Gradient highlight around the selected Basic SKU card
-- Premium and Enterprise visible with `Coming shortly` status pills
-- Controlled React form state
-- Shared Zod schema for form and API validation
-- Client-side validation powered by shared schema definitions
-- Server-side route validation powered by the same schema definitions
-- Structured validation errors in the local placeholder API route
-- Dedicated frontend API client helper
-- Environment-variable-ready frontend API base URL configuration
-- Professional landing-page copy for the package offering
-- Professional request form wording with no beta or prototype language
-- Fix for SKU card text visibility
+- frontend application in Next.js
+- professional landing page and request form
+- Basic SKU selected by default
+- shared contract package using Zod schemas
+- dedicated backend application service
+- frontend API client pointed to backend service
+- backend validation using shared contracts
+- NocoDB persistence integration in backend
+- environment-variable-based backend configuration
+- TypeScript alias migration away from deprecated `baseUrl`
+- hero layout width fix for improved visual presentation
 
 Not yet implemented:
 
-- separate backend application service
-- shared schema package across frontend and backend applications
-- persistent storage
-- NocoDB integration
-- n8n workflow trigger
 - authentication
+- advanced workflow automation
+- downstream provisioning logic
+- audit trail and operational status lifecycle
 
 ## Repository paths
 

@@ -21,18 +21,23 @@ The API is designed so that Premium and Enterprise can be added later without br
 
 ## Public endpoints
 
-## Current implementation note
+## Current implementation
 
-The current frontend iteration uses a local placeholder implementation of `POST /api/applications` inside the Next.js application.
+The authoritative application submission endpoint is now provided by the backend service:
 
-Current files:
+- `apps/api/src/routes/applications.ts`
 
-- `apps/web/src/app/api/applications/route.ts`
-- `apps/web/src/features/application-form/types/index.ts`
+The frontend sends requests to the backend service using:
 
-The route handler validates incoming requests using shared Zod schemas defined in the frontend source tree. The frontend client also validates outbound payloads and parses successful responses using the same schema source.
+- `apps/web/src/features/application-form/lib/api.ts`
 
-This structure is intentionally preparing the application for a later move to a separate backend service and, after that, to a dedicated shared schema package.
+Schemas are shared through:
+
+- `packages/contracts/src/index.ts`
+
+The backend persists submitted application records into NocoDB using:
+
+- `apps/api/src/lib/nocodb.ts`
 
 ### Create application
 
