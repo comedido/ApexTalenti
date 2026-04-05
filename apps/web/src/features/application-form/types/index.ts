@@ -39,3 +39,10 @@ export type CreateApplicationResponse = {
   applicationStatus: "submitted";
   message: string;
 };
+
+export type CreateApplicationError = {
+  error: {
+    code: string;
+    message: string;
+  };
+};

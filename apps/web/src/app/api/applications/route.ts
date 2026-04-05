@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import {
   CreateApplicationRequest,
   CreateApplicationResponse,
-} from "@/components/applicationForm.types";
+} from "@/features/application-form/types";
 
 function makeId(prefix: string) {
   const randomPart = Math.random().toString(36).slice(2, 10);

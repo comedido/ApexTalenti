@@ -1,7 +1,4 @@
-import {
-  ApplicationFormErrors,
-  ApplicationFormValues,
-} from "./applicationForm.types";
+import { ApplicationFormErrors, ApplicationFormValues } from "../types";
 
 export const initialApplicationFormValues: ApplicationFormValues = {
   sku: "basic",
@@ -13,7 +10,7 @@ export const initialApplicationFormValues: ApplicationFormValues = {
   activityDescription: "",
 };
 
-function normalizeDomain(value: string): string {
+export function normalizeDomain(value: string): string {
   return value
     .trim()
     .toLowerCase()

@@ -1,18 +1,18 @@
 "use client";
 
 import { ChangeEvent, FormEvent, useMemo, useState } from "react";
-import {
-  ApplicationFormErrors,
-  ApplicationFormValues,
-  CreateApplicationRequest,
-  CreateApplicationResponse,
-  SkuValue,
-} from "./applicationForm.types";
+import { createApplication } from "../lib/api";
 import {
   initialApplicationFormValues,
   normalizeApplicationFormValues,
   validateApplicationForm,
-} from "./applicationForm.validation";
+} from "../lib/validation";
+import {
+  ApplicationFormErrors,
+  ApplicationFormValues,
+  CreateApplicationRequest,
+  SkuValue,
+} from "../types";
 
 type TouchedState = Partial<Record<keyof ApplicationFormValues, boolean>>;
 
@@ -159,27 +159,16 @@ export function ApplicationForm() {
 
     try {
       setSubmitting(true);
+      setSubmitted(false);
       setServerMessage("");
       setApplicationRef(null);
 
-      const response = await fetch("/api/applications", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payload),
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to submit placeholder application.");
-      }
-
-      const data = (await response.json()) as CreateApplicationResponse;
+      const data = await createApplication(payload);
 
       setSubmitted(true);
       setServerMessage(data.message);
       setApplicationRef(data.applicationId);
-      console.log("Iteration 3 placeholder API response:", data);
+      console.log("Iteration 4 placeholder API response:", data);
     } catch (error) {
       setSubmitted(false);
       setServerMessage(
@@ -203,8 +192,8 @@ export function ApplicationForm() {
         <p className="eyebrow">Phase 1 application</p>
         <h2>Apply for the Basic package</h2>
         <p>
-          This iteration includes SKU selection UI and a local placeholder API
-          submission using a Next.js route handler.
+          This iteration refactors the form into a feature-based structure and
+          extracts API logic for future backend integration.
         </p>
       </div>
 
@@ -236,7 +225,7 @@ export function ApplicationForm() {
                     <h3>{sku.title}</h3>
                     <span className="badge">{sku.pill}</span>
                   </div>
-                  <p>{sku.description}</p>
+                  <p className="sku-card__description">{sku.description}</p>
                 </button>
               );
             })}
@@ -383,8 +372,8 @@ export function ApplicationForm() {
 
         <div className="form-meta">
           <p className="helper-text">
-            The form now posts to a local placeholder API route and returns a
-            mock application reference.
+            The form posts through a dedicated client API helper and can switch
+            later to an external backend base URL.
           </p>
         </div>
 

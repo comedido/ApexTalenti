@@ -1,5 +1,5 @@
-import { ApplicationForm } from "@/components/ApplicationForm";
 import { Hero } from "@/components/Hero";
+import { ApplicationForm } from "@/features/application-form/components/ApplicationForm";
 
 export default function HomePage() {
   return (
