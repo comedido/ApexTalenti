@@ -23,13 +23,17 @@ The API is designed so that Premium and Enterprise can be added later without br
 
 ## Current implementation note
 
-In the current frontend iteration, a local placeholder implementation of `POST /api/applications` exists inside the Next.js app using an App Router route handler.
+The current frontend iteration uses a local placeholder implementation of `POST /api/applications` inside the Next.js application.
 
 Current file:
 
 - `apps/web/src/app/api/applications/route.ts`
 
-This route is temporary and exists to validate the frontend integration flow before the standalone backend service is introduced.
+The frontend does not call this route directly from the form component anymore. Instead, it uses a dedicated client helper:
+
+- `apps/web/src/features/application-form/lib/api.ts`
+
+This structure is intentionally preparing the app for migration to a separate backend service in a later iteration.
 
 ### Create application
 

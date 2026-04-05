@@ -6,22 +6,24 @@ This document tracks the implementation status of the public ApexTalenti web app
 
 ## Current milestone
 
-### Iteration 3: SKU-aware form with placeholder API submission
+### Iteration 4: Feature-based frontend structure and extracted API client
 
 Implemented:
 
-- Node/TypeScript frontend app created in the main repository
+- Node/TypeScript frontend application in the monorepo
 - Next.js App Router structure
-- Basic visual layout
-- Basic SKU auto-selected in the form UI
+- Basic SKU auto-selected in the UI
 - Gradient highlight around the selected Basic SKU card
 - Premium and Enterprise visible with `Coming shortly` status pills
 - Controlled React form state
-- Local validation rules
-- Inline field-level validation messages
+- Client-side validation rules
+- Inline field-level validation feedback
 - Local placeholder API submission using a Next.js route handler
 - Mock application reference returned to the UI
-- Source code committed and pushed to GitHub
+- Feature-based source structure for the application form
+- Dedicated frontend API client helper
+- Environment-variable-ready frontend API base URL configuration
+- Fix for SKU card text visibility so card content remains visible without hover
 
 Not yet implemented:
 

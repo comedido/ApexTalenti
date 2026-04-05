@@ -16,6 +16,7 @@ It should be updated whenever the frontend structure changes significantly.
 ```text
 apps/web
 ├── README.md
+├── .env.local
 ├── next.config.ts
 ├── package.json
 ├── tsconfig.json
@@ -29,11 +30,19 @@ apps/web
     │   ├── globals.css
     │   ├── layout.tsx
     │   └── page.tsx
-    └── components/
-        ├── ApplicationForm.tsx
-        ├── Hero.tsx
-        ├── applicationForm.types.ts
-        └── applicationForm.validation.ts
+    ├── components/
+    │   └── Hero.tsx
+    ├── features/
+    │   └── application-form/
+    │       ├── components/
+    │       │   └── ApplicationForm.tsx
+    │       ├── lib/
+    │       │   ├── api.ts
+    │       │   └── validation.ts
+    │       └── types/
+    │           └── index.ts
+    └── lib/
+        └── config.ts
 ```
 
 ## Key files

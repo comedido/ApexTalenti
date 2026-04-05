@@ -6,7 +6,9 @@ This document describes the staged integration path between the ApexTalenti fron
 
 ## Current status
 
-### Iteration 3
+## Current status
+
+### Iteration 4
 
 Implemented:
 
@@ -19,6 +21,8 @@ Implemented:
 - inline validation feedback
 - local placeholder API route for application submission
 - mock application reference returned to the UI
+- extracted frontend API client layer
+- environment-variable-ready frontend API base URL support
 
 Not implemented:
 
