@@ -3,11 +3,15 @@ import {
   CreateApplicationError,
   CreateApplicationRequest,
   CreateApplicationResponse,
+  createApplicationRequestSchema,
+  createApplicationResponseSchema,
 } from "../types";
 
 export async function createApplication(
   payload: CreateApplicationRequest,
 ): Promise<CreateApplicationResponse> {
+  const validatedPayload = createApplicationRequestSchema.parse(payload);
+
   const endpoint = config.applicationApiBaseUrl
     ? `${config.applicationApiBaseUrl}/api/applications`
     : "/api/applications";
@@ -17,7 +21,7 @@ export async function createApplication(
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(payload),
+    body: JSON.stringify(validatedPayload),
   });
 
   if (!response.ok) {
@@ -33,5 +37,6 @@ export async function createApplication(
     throw new Error(errorMessage);
   }
 
-  return (await response.json()) as CreateApplicationResponse;
+  const data = await response.json();
+  return createApplicationResponseSchema.parse(data);
 }

@@ -26,21 +26,24 @@ const skuOptions: Array<{
   {
     value: "basic",
     title: "Basic",
-    description: "Domain, static site, and branded business email presence.",
+    description:
+      "A complete starter package covering domain setup, a professional static web presence, and the foundation for branded business email.",
     pill: "Available now",
     available: true,
   },
   {
     value: "premium",
     title: "Premium",
-    description: "Dedicated standalone mailbox and stronger operational setup.",
+    description:
+      "Expanded delivery for businesses that need a stronger communications setup and broader service coverage.",
     pill: "Coming shortly",
     available: false,
   },
   {
     value: "enterprise",
     title: "Enterprise",
-    description: "Advanced multi-mailbox and extended business setup.",
+    description:
+      "A more advanced package for organizations that require a larger operational footprint and extended provisioning scope.",
     pill: "Coming shortly",
     available: false,
   },
@@ -168,13 +171,12 @@ export function ApplicationForm() {
       setSubmitted(true);
       setServerMessage(data.message);
       setApplicationRef(data.applicationId);
-      console.log("Iteration 4 placeholder API response:", data);
     } catch (error) {
       setSubmitted(false);
       setServerMessage(
         error instanceof Error
           ? error.message
-          : "Unexpected error during placeholder submission.",
+          : "Unexpected error during submission.",
       );
     } finally {
       setSubmitting(false);
@@ -189,12 +191,32 @@ export function ApplicationForm() {
   return (
     <section className="form-section">
       <div className="section-heading">
-        <p className="eyebrow">Phase 1 application</p>
-        <h2>Apply for the Basic package</h2>
+        <p className="eyebrow">Application</p>
+        <h2>Request the Basic package</h2>
         <p>
-          This iteration refactors the form into a feature-based structure and
-          extracts API logic for future backend integration.
+          The Basic package is intended for businesses that want a professional
+          first online presence delivered with speed and clarity. Submit your
+          details below to request setup review for your brand, preferred
+          domain, and business activity.
         </p>
+      </div>
+
+      <div className="offering-summary">
+        <h3>What is included</h3>
+        <ul>
+          <li>
+            Branded landing page delivery suitable for a professional business
+            presence.
+          </li>
+          <li>
+            Preferred domain capture and setup information for the requested
+            brand.
+          </li>
+          <li>
+            Business email foundation planning aligned to the selected package
+            scope.
+          </li>
+        </ul>
       </div>
 
       <form className="application-form" onSubmit={handleSubmit} noValidate>
@@ -351,7 +373,7 @@ export function ApplicationForm() {
           Business description
           <textarea
             name="activityDescription"
-            placeholder="Briefly describe the business activity"
+            placeholder="Briefly describe the products or services your business provides"
             rows={5}
             value={values.activityDescription}
             onChange={handleChange}
@@ -372,8 +394,9 @@ export function ApplicationForm() {
 
         <div className="form-meta">
           <p className="helper-text">
-            The form posts through a dedicated client API helper and can switch
-            later to an external backend base URL.
+            After submission, the request is reviewed using the business
+            details, preferred domain, and selected package information you
+            provide.
           </p>
         </div>
 
@@ -384,7 +407,7 @@ export function ApplicationForm() {
               submitting || (hasErrors && Object.keys(touched).length > 0)
             }
           >
-            {submitting ? "Submitting..." : "Submit application"}
+            {submitting ? "Submitting..." : "Submit request"}
           </button>
         </div>
 
@@ -394,13 +417,15 @@ export function ApplicationForm() {
             role="status"
             aria-live="polite"
           >
-            <strong>{submitted ? "Success:" : "Submission error:"}</strong>{" "}
+            <strong>
+              {submitted ? "Request received:" : "Submission error:"}
+            </strong>{" "}
             {serverMessage}
             {applicationRef ? (
               <>
                 <br />
                 <span className="reference-text">
-                  Application reference: <code>{applicationRef}</code>
+                  Reference: <code>{applicationRef}</code>
                 </span>
               </>
             ) : null}
