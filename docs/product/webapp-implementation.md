@@ -6,7 +6,7 @@ This document tracks the implementation status of the public ApexTalenti web app
 
 ## Current milestone
 
-### Iteration 4: Feature-based frontend structure and extracted API client
+### Iteration 5: Shared schema validation and professionalized request page
 
 Implemented:
 
@@ -16,23 +16,24 @@ Implemented:
 - Gradient highlight around the selected Basic SKU card
 - Premium and Enterprise visible with `Coming shortly` status pills
 - Controlled React form state
-- Client-side validation rules
-- Inline field-level validation feedback
-- Local placeholder API submission using a Next.js route handler
-- Mock application reference returned to the UI
-- Feature-based source structure for the application form
+- Shared Zod schema for form and API validation
+- Client-side validation powered by shared schema definitions
+- Server-side route validation powered by the same schema definitions
+- Structured validation errors in the local placeholder API route
 - Dedicated frontend API client helper
 - Environment-variable-ready frontend API base URL configuration
-- Fix for SKU card text visibility so card content remains visible without hover
+- Professional landing-page copy for the package offering
+- Professional request form wording with no beta or prototype language
+- Fix for SKU card text visibility
 
 Not yet implemented:
 
 - separate backend application service
-- shared schema package across frontend and backend
+- shared schema package across frontend and backend applications
 - persistent storage
 - NocoDB integration
 - n8n workflow trigger
-- backend-driven business validation
+- authentication
 
 ## Repository paths
 

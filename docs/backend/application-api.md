@@ -25,15 +25,14 @@ The API is designed so that Premium and Enterprise can be added later without br
 
 The current frontend iteration uses a local placeholder implementation of `POST /api/applications` inside the Next.js application.
 
-Current file:
+Current files:
 
 - `apps/web/src/app/api/applications/route.ts`
+- `apps/web/src/features/application-form/types/index.ts`
 
-The frontend does not call this route directly from the form component anymore. Instead, it uses a dedicated client helper:
+The route handler validates incoming requests using shared Zod schemas defined in the frontend source tree. The frontend client also validates outbound payloads and parses successful responses using the same schema source.
 
-- `apps/web/src/features/application-form/lib/api.ts`
-
-This structure is intentionally preparing the app for migration to a separate backend service in a later iteration.
+This structure is intentionally preparing the application for a later move to a separate backend service and, after that, to a dedicated shared schema package.
 
 ### Create application
 

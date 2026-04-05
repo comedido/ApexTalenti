@@ -6,9 +6,7 @@ This document describes the staged integration path between the ApexTalenti fron
 
 ## Current status
 
-## Current status
-
-### Iteration 4
+### Iteration 5
 
 Implemented:
 
@@ -17,17 +15,19 @@ Implemented:
 - Basic SKU auto-selected in the UI
 - Premium and Enterprise visible but not selectable
 - controlled client-side form state
-- local validation rules
-- inline validation feedback
+- shared schema-based client validation
+- shared schema-based server validation
 - local placeholder API route for application submission
+- structured validation errors from the local route
 - mock application reference returned to the UI
 - extracted frontend API client layer
 - environment-variable-ready frontend API base URL support
+- professionalized service-page copy and form presentation
 
 Not implemented:
 
 - separate backend service
-- shared schema package
+- cross-application shared schema package
 - persistent storage
 - workflow trigger
 - NocoDB integration

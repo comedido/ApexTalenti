@@ -64,11 +64,6 @@ apps/web
 
 ## Notes
 
-This is the initial Phase 1 layout for the public web form.
-
-As the project evolves, additional folders are expected for:
-
-- form validation
-- API client logic
-- shared types
-- reusable UI primitives
+- `src/features/application-form/types/index.ts` now contains the shared Zod schemas and inferred TypeScript types used by both the client form and the local placeholder API route.
+- `src/features/application-form/lib/validation.ts` normalizes form values and maps Zod validation output into field-level UI errors.
+- `src/features/application-form/lib/api.ts` validates outbound payloads and parses inbound responses.
