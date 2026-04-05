@@ -1,0 +1,8 @@
+{
+  "name": "apextalenti",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ]
+}

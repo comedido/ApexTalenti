@@ -52,6 +52,26 @@ body {
   padding: 16px 0 32px;
 }
 
+.hero__content {
+  width: 100%;
+  max-width: none;
+}
+
+.hero__description {
+  max-width: 860px;
+  font-size: 1.08rem;
+  line-height: 1.7;
+}
+
+.form-section .section-heading h2 {
+  max-width: none;
+}
+
+.container {
+  width: min(1200px, calc(100% - 48px));
+  margin: 0 auto;
+}
+
 .eyebrow {
   margin: 0 0 8px;
   font-size: 0.85rem;
@@ -62,10 +82,12 @@ body {
 }
 
 .hero h1 {
-  margin: 0;
-  font-size: clamp(2rem, 5vw, 3.5rem);
+  width: 100%;
+  max-width: none;
+  margin: 0 0 16px;
+  font-size: clamp(2.4rem, 4vw, 4.75rem);
   line-height: 1.05;
-  max-width: 12ch;
+  letter-spacing: -0.03em;
 }
 
 .lead {
