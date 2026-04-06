@@ -13,21 +13,32 @@ export async function createNocoRecord(record: NocoRecordPayload) {
 
   const endpoint = `${config.nocodbBaseUrl}${config.nocodbTablePath}`;
 
+  console.log("NocoDB endpoint:", endpoint);
+  console.log("NocoDB payload:", JSON.stringify(record, null, 2));
+
   const response = await fetch(endpoint, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
       "xc-token": config.nocodbToken,
     },
-    body: JSON.stringify({
-      records: [record],
-    }),
+    body: JSON.stringify(record),
   });
 
+  const responseText = await response.text();
+
+  console.log("NocoDB response status:", response.status);
+  console.log("NocoDB response body:", responseText);
+
   if (!response.ok) {
-    const text = await response.text();
-    throw new Error(`NocoDB create record failed: ${response.status} ${text}`);
+    throw new Error(
+      `NocoDB create record failed: ${response.status} ${responseText}`,
+    );
   }
 
-  return response.json();
+  try {
+    return JSON.parse(responseText);
+  } catch {
+    return responseText;
+  }
 }

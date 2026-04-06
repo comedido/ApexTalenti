@@ -30,11 +30,12 @@ router.post("/", async (req, res) => {
   const payload = validation.data;
   const applicationId = makeId("app");
   const customerId = makeId("cus");
+  const submittedAt = new Date().toISOString();
 
   try {
     await createNocoRecord({
-      applicationId,
-      customerId,
+      applicationId: applicationId,
+      customerId: customerId,
       sku: payload.application.sku,
       brandName: payload.application.brandName,
       desiredDomain: payload.application.desiredDomain,
@@ -47,6 +48,9 @@ router.post("/", async (req, res) => {
       countryCode: payload.customer.countryCode,
       language: payload.customer.language,
       applicationStatus: "submitted",
+      submissionSource: "web-form",
+      submittedAt: submittedAt,
+      notes: "",
     });
 
     const response: CreateApplicationResponse = {
