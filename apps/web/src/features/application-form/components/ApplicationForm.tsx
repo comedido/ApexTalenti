@@ -1,6 +1,6 @@
 "use client";
 
-import { ChangeEvent, FormEvent, useMemo, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useMemo, useState } from "react";
 import { createApplication } from "../lib/api";
 import {
   initialApplicationFormValues,
@@ -49,6 +49,14 @@ const skuOptions: Array<{
   },
 ];
 
+function generateIdempotencyKey() {
+  if (typeof window !== "undefined" && window.crypto?.randomUUID) {
+    return window.crypto.randomUUID();
+  }
+
+  return `idem_${Date.now()}_${Math.random().toString(36).slice(2, 10)}`;
+}
+
 export function ApplicationForm() {
   const [values, setValues] = useState<ApplicationFormValues>(
     initialApplicationFormValues,
@@ -57,12 +65,26 @@ export function ApplicationForm() {
   const [touched, setTouched] = useState<TouchedState>({});
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const [submissionLocked, setSubmissionLocked] = useState(false);
   const [serverMessage, setServerMessage] = useState("");
   const [applicationRef, setApplicationRef] = useState<string | null>(null);
+  const [idempotencyKey, setIdempotencyKey] = useState("");
+
+  useEffect(() => {
+    setIdempotencyKey(generateIdempotencyKey());
+  }, []);
 
   const hasErrors = useMemo(() => {
     return Object.keys(validateApplicationForm(values)).length > 0;
   }, [values]);
+
+  function resetSubmissionStateForEdits() {
+    setSubmitted(false);
+    setServerMessage("");
+    setApplicationRef(null);
+    setSubmissionLocked(false);
+    setIdempotencyKey(generateIdempotencyKey());
+  }
 
   function handleChange(
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -74,15 +96,14 @@ export function ApplicationForm() {
       [name]: value,
     }));
 
-    setSubmitted(false);
-    setServerMessage("");
-    setApplicationRef(null);
+    resetSubmissionStateForEdits();
 
     if (touched[name as keyof ApplicationFormValues]) {
       const nextValues = {
         ...values,
         [name]: value,
       };
+
       setErrors(validateApplicationForm(nextValues));
     }
   }
@@ -110,14 +131,16 @@ export function ApplicationForm() {
     };
 
     setValues(nextValues);
-    setSubmitted(false);
-    setServerMessage("");
-    setApplicationRef(null);
+    resetSubmissionStateForEdits();
     setErrors(validateApplicationForm(nextValues));
   }
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+
+    if (submitting || submissionLocked) {
+      return;
+    }
 
     const allTouched: TouchedState = {
       sku: true,
@@ -137,6 +160,12 @@ export function ApplicationForm() {
     setErrors(validationErrors);
 
     if (Object.keys(validationErrors).length > 0) {
+      setSubmitted(false);
+      return;
+    }
+
+    if (!idempotencyKey) {
+      setServerMessage("Unable to prepare the request. Please try again.");
       setSubmitted(false);
       return;
     }
@@ -166,13 +195,15 @@ export function ApplicationForm() {
       setServerMessage("");
       setApplicationRef(null);
 
-      const data = await createApplication(payload);
+      const data = await createApplication(payload, idempotencyKey);
 
       setSubmitted(true);
+      setSubmissionLocked(true);
       setServerMessage(data.message);
       setApplicationRef(data.applicationId);
     } catch (error) {
       setSubmitted(false);
+      setSubmissionLocked(false);
       setServerMessage(
         error instanceof Error
           ? error.message
@@ -404,10 +435,16 @@ export function ApplicationForm() {
           <button
             type="submit"
             disabled={
-              submitting || (hasErrors && Object.keys(touched).length > 0)
+              submitting ||
+              submissionLocked ||
+              (hasErrors && Object.keys(touched).length > 0)
             }
           >
-            {submitting ? "Submitting..." : "Submit request"}
+            {submitting
+              ? "Submitting..."
+              : submissionLocked
+                ? "Request submitted"
+                : "Submit request"}
           </button>
         </div>
 

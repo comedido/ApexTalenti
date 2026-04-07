@@ -9,6 +9,7 @@ import {
 
 export async function createApplication(
   payload: CreateApplicationRequest,
+  idempotencyKey: string,
 ): Promise<CreateApplicationResponse> {
   const validatedPayload = createApplicationRequestSchema.parse(payload);
 
@@ -20,6 +21,7 @@ export async function createApplication(
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      "Idempotency-Key": idempotencyKey,
     },
     body: JSON.stringify(validatedPayload),
   });
