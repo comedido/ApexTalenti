@@ -6,23 +6,27 @@ This document describes the staged integration path between the ApexTalenti fron
 
 ## Current status
 
-### Iteration 6
+## Current status
+
+### Iteration 7
 
 Implemented:
 
 - frontend request form
 - backend application service
 - shared schema contracts
-- backend validation
 - NocoDB persistence
-- external backend base URL integration from frontend
+- frontend duplicate-submit protection
+- backend idempotency-key handling
+- monorepo Turbopack root configuration
 
 Not implemented:
 
-- provisioning workflow execution
+- persistent idempotency store
+- provisioning workflows
 - registrar integration
 - mailbox provisioning
-- S3 deployment lifecycle
+- S3 deployment
 
 ## Planned integration stages
 

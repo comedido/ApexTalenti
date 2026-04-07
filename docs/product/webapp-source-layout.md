@@ -74,6 +74,7 @@ ApexTalenti
 
 ## Notes
 
-- `src/features/application-form/types/index.ts` now contains the shared Zod schemas and inferred TypeScript types used by both the client form and the local placeholder API route.
-- `src/features/application-form/lib/validation.ts` normalizes form values and maps Zod validation output into field-level UI errors.
-- `src/features/application-form/lib/api.ts` validates outbound payloads and parses inbound responses.
+- `apps/web/src/features/application-form/components/ApplicationForm.tsx` now manages frontend submission locking and regenerates an idempotency key when the form changes.
+- `apps/web/src/features/application-form/lib/api.ts` sends the `Idempotency-Key` header to the backend service.
+- `apps/api/src/routes/applications.ts` enforces backend idempotency and prevents duplicate NocoDB writes for repeated identical requests.
+- `apps/web/next.config.ts` defines `turbopack.root` to align Next.js with the monorepo root.

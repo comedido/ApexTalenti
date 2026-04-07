@@ -6,28 +6,27 @@ This document tracks the implementation status of the public ApexTalenti web app
 
 ## Current milestone
 
-### Iteration 6: Real backend service and NocoDB persistence
+### Iteration 7: Duplicate submission protection and idempotent backend writes
 
 Implemented:
 
-- frontend application in Next.js
 - professional landing page and request form
-- Basic SKU selected by default
-- shared contract package using Zod schemas
-- dedicated backend application service
-- frontend API client pointed to backend service
-- backend validation using shared contracts
-- NocoDB persistence integration in backend
-- environment-variable-based backend configuration
-- TypeScript alias migration away from deprecated `baseUrl`
-- hero layout width fix for improved visual presentation
+- frontend submission to backend service
+- shared schema contracts
+- NocoDB persistence
+- frontend duplicate-submit protection after successful request
+- frontend regeneration of request identity when form data changes
+- backend `Idempotency-Key` enforcement
+- backend cached replay behavior for repeated identical submissions
+- conflict response when the same idempotency key is reused with a different payload
+- Turbopack workspace-root configuration for the monorepo
 
 Not yet implemented:
 
-- authentication
-- advanced workflow automation
-- downstream provisioning logic
-- audit trail and operational status lifecycle
+- persistent idempotency storage
+- multi-instance backend deduplication
+- workflow execution after application submission
+- registrar, mailbox, and S3 provisioning
 
 ## Repository paths
 

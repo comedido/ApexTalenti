@@ -203,13 +203,19 @@ The raw user input can optionally be stored separately for audit purposes, but t
 
 ## Idempotency
 
-The public application endpoint should support idempotency to avoid duplicate submissions due to retries or double-clicks.
+The application submission endpoint now requires an `Idempotency-Key` request header.
 
-Recommended approach:
+Behavior:
 
-- frontend sends `Idempotency-Key` header
-- backend stores request hash + result for a short replay window
-- repeated identical request returns the original success response
+- the first valid request with a new idempotency key creates the NocoDB record
+- a repeated request with the same key and same payload returns the cached success response
+- a repeated request with the same key and a different payload returns a conflict error
+
+Current implementation note:
+
+- idempotency storage is currently implemented in memory within the backend process
+- this prevents duplicate writes during normal operation but does not survive API restarts
+- the NocoDB table should include an `idempotencyKey` text field for traceability
 
 ## Persistence flow
 
