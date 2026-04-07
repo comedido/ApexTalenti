@@ -1,6 +1,6 @@
 "use client";
 
-import { ChangeEvent, FormEvent, useEffect, useMemo, useState } from "react";
+import { ChangeEvent, FormEvent, useMemo, useState } from "react";
 import { createApplication } from "../lib/api";
 import {
   initialApplicationFormValues,
@@ -27,7 +27,7 @@ const skuOptions: Array<{
     value: "basic",
     title: "Basic",
     description:
-      "A complete starter package covering domain setup, a professional static web presence, and the foundation for branded business email.",
+      "A complete starter package covering domain intake, a professional static web presence, and provisioning-ready business setup preparation.",
     pill: "Available now",
     available: true,
   },
@@ -35,27 +35,19 @@ const skuOptions: Array<{
     value: "premium",
     title: "Premium",
     description:
-      "Expanded delivery for businesses that need a stronger communications setup and broader service coverage.",
-    pill: "Coming shortly",
+      "Expanded delivery for businesses that require broader service scope and additional operational setup.",
+    pill: "Planned",
     available: false,
   },
   {
     value: "enterprise",
     title: "Enterprise",
     description:
-      "A more advanced package for organizations that require a larger operational footprint and extended provisioning scope.",
-    pill: "Coming shortly",
+      "A tailored package for organizations that need a more advanced operational model and scalable delivery path.",
+    pill: "Planned",
     available: false,
   },
 ];
-
-function generateIdempotencyKey() {
-  if (typeof window !== "undefined" && window.crypto?.randomUUID) {
-    return window.crypto.randomUUID();
-  }
-
-  return `idem_${Date.now()}_${Math.random().toString(36).slice(2, 10)}`;
-}
 
 export function ApplicationForm() {
   const [values, setValues] = useState<ApplicationFormValues>(
@@ -65,26 +57,12 @@ export function ApplicationForm() {
   const [touched, setTouched] = useState<TouchedState>({});
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
-  const [submissionLocked, setSubmissionLocked] = useState(false);
   const [serverMessage, setServerMessage] = useState("");
   const [applicationRef, setApplicationRef] = useState<string | null>(null);
-  const [idempotencyKey, setIdempotencyKey] = useState("");
-
-  useEffect(() => {
-    setIdempotencyKey(generateIdempotencyKey());
-  }, []);
 
   const hasErrors = useMemo(() => {
     return Object.keys(validateApplicationForm(values)).length > 0;
   }, [values]);
-
-  function resetSubmissionStateForEdits() {
-    setSubmitted(false);
-    setServerMessage("");
-    setApplicationRef(null);
-    setSubmissionLocked(false);
-    setIdempotencyKey(generateIdempotencyKey());
-  }
 
   function handleChange(
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -96,14 +74,11 @@ export function ApplicationForm() {
       [name]: value,
     }));
 
-    resetSubmissionStateForEdits();
-
     if (touched[name as keyof ApplicationFormValues]) {
       const nextValues = {
         ...values,
         [name]: value,
       };
-
       setErrors(validateApplicationForm(nextValues));
     }
   }
@@ -131,14 +106,13 @@ export function ApplicationForm() {
     };
 
     setValues(nextValues);
-    resetSubmissionStateForEdits();
     setErrors(validateApplicationForm(nextValues));
   }
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    if (submitting || submissionLocked) {
+    if (submitting || submitted) {
       return;
     }
 
@@ -164,12 +138,6 @@ export function ApplicationForm() {
       return;
     }
 
-    if (!idempotencyKey) {
-      setServerMessage("Unable to prepare the request. Please try again.");
-      setSubmitted(false);
-      return;
-    }
-
     const payload: CreateApplicationRequest = {
       customer: {
         displayName: normalizedValues.brandName,
@@ -191,19 +159,16 @@ export function ApplicationForm() {
 
     try {
       setSubmitting(true);
-      setSubmitted(false);
       setServerMessage("");
       setApplicationRef(null);
 
-      const data = await createApplication(payload, idempotencyKey);
+      const data = await createApplication(payload);
 
       setSubmitted(true);
-      setSubmissionLocked(true);
       setServerMessage(data.message);
       setApplicationRef(data.applicationId);
     } catch (error) {
       setSubmitted(false);
-      setSubmissionLocked(false);
       setServerMessage(
         error instanceof Error
           ? error.message
@@ -219,34 +184,45 @@ export function ApplicationForm() {
     return errors[field];
   }
 
+  if (submitted) {
+    return (
+      <section className="form-section">
+        <div className="submission-result submission-result--success">
+          <p className="eyebrow">Request submitted</p>
+          <h2>Your request has been received</h2>
+          <p>{serverMessage}</p>
+          {applicationRef ? (
+            <p className="reference-text">
+              Reference: <code>{applicationRef}</code>
+            </p>
+          ) : null}
+          <p className="helper-text">
+            This page is locked after submission to prevent duplicate requests.
+            Refresh the page if you need to start a new application.
+          </p>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section className="form-section">
       <div className="section-heading">
         <p className="eyebrow">Application</p>
         <h2>Request the Basic package</h2>
         <p>
-          The Basic package is intended for businesses that want a professional
-          first online presence delivered with speed and clarity. Submit your
-          details below to request setup review for your brand, preferred
-          domain, and business activity.
+          Submit your business and brand details to request review for the Basic
+          package, including domain intake, a professional landing page, and
+          operational setup preparation.
         </p>
       </div>
 
       <div className="offering-summary">
         <h3>What is included</h3>
         <ul>
-          <li>
-            Branded landing page delivery suitable for a professional business
-            presence.
-          </li>
-          <li>
-            Preferred domain capture and setup information for the requested
-            brand.
-          </li>
-          <li>
-            Business email foundation planning aligned to the selected package
-            scope.
-          </li>
+          <li>Professional business landing page delivery.</li>
+          <li>Preferred domain intake and review for the requested brand.</li>
+          <li>Operationally structured intake for downstream provisioning.</li>
         </ul>
       </div>
 
@@ -425,9 +401,8 @@ export function ApplicationForm() {
 
         <div className="form-meta">
           <p className="helper-text">
-            After submission, the request is reviewed using the business
-            details, preferred domain, and selected package information you
-            provide.
+            Submitted requests enter an internal review workflow before any
+            provisioning activity begins.
           </p>
         </div>
 
@@ -435,37 +410,16 @@ export function ApplicationForm() {
           <button
             type="submit"
             disabled={
-              submitting ||
-              submissionLocked ||
-              (hasErrors && Object.keys(touched).length > 0)
+              submitting || (hasErrors && Object.keys(touched).length > 0)
             }
           >
-            {submitting
-              ? "Submitting..."
-              : submissionLocked
-                ? "Request submitted"
-                : "Submit request"}
+            {submitting ? "Submitting..." : "Submit request"}
           </button>
         </div>
 
-        {serverMessage ? (
-          <div
-            className={submitted ? "success-message" : "error-message"}
-            role="status"
-            aria-live="polite"
-          >
-            <strong>
-              {submitted ? "Request received:" : "Submission error:"}
-            </strong>{" "}
-            {serverMessage}
-            {applicationRef ? (
-              <>
-                <br />
-                <span className="reference-text">
-                  Reference: <code>{applicationRef}</code>
-                </span>
-              </>
-            ) : null}
+        {serverMessage && !submitted ? (
+          <div className="error-message" role="status" aria-live="polite">
+            <strong>Submission error:</strong> {serverMessage}
           </div>
         ) : null}
       </form>

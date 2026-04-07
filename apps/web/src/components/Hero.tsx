@@ -4,19 +4,21 @@ export function Hero() {
       <div className="hero__content">
         <p className="eyebrow">ApexTalenti</p>
         <h1>
-          Establish a credible business presence with domain, web, and email
-          foundations in one service
+          Business web presence and operational onboarding for new and growing
+          companies
         </h1>
         <p className="hero__description">
-          The Basic package is built for businesses that need a professional
-          online presence without unnecessary complexity. It combines domain
-          setup planning, a polished static landing page, and the structure
-          required for branded business communications.
+          ApexTalenti helps businesses establish a credible digital presence
+          with structured intake, domain review, web delivery planning, and
+          provisioning-ready operational data. The Basic package is designed for
+          organizations that need a professional starting point with clear
+          scope, business-oriented review, and readiness for downstream
+          execution.
         </p>
         <div className="hero__highlights">
-          <span>Professional landing page</span>
-          <span>Domain setup workflow</span>
-          <span>Business email foundation</span>
+          <span>Structured intake</span>
+          <span>Corporate web presence</span>
+          <span>Operational readiness</span>
         </div>
       </div>
     </section>

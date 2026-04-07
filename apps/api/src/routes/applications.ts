@@ -7,34 +7,12 @@ import { createNocoRecord } from "../lib/nocodb";
 
 const router = Router();
 
-type CachedSuccess = {
-  fingerprint: string;
-  response: CreateApplicationResponse;
-};
-
-const idempotencyStore = new Map<string, CachedSuccess>();
-
 function makeId(prefix: string) {
   const randomPart = Math.random().toString(36).slice(2, 10);
   return `${prefix}_${randomPart}`;
 }
 
-function buildFingerprint(body: unknown) {
-  return JSON.stringify(body);
-}
-
 router.post("/", async (req, res) => {
-  const idempotencyKey = req.header("Idempotency-Key");
-
-  if (!idempotencyKey) {
-    return res.status(400).json({
-      error: {
-        code: "MISSING_IDEMPOTENCY_KEY",
-        message: "Idempotency-Key header is required.",
-      },
-    });
-  }
-
   const validation = createApplicationRequestSchema.safeParse(req.body);
 
   if (!validation.success) {
@@ -50,24 +28,6 @@ router.post("/", async (req, res) => {
   }
 
   const payload = validation.data;
-  const fingerprint = buildFingerprint(payload);
-  const existing = idempotencyStore.get(idempotencyKey);
-
-  if (existing) {
-    if (existing.fingerprint !== fingerprint) {
-      return res.status(409).json({
-        error: {
-          code: "IDEMPOTENCY_KEY_REUSE_CONFLICT",
-          message:
-            "This Idempotency-Key was already used with a different request payload.",
-        },
-      });
-    }
-
-    res.setHeader("Idempotency-Status", "cached");
-    return res.status(201).json(existing.response);
-  }
-
   const applicationId = makeId("app");
   const customerId = makeId("cus");
   const submittedAt = new Date().toISOString();
@@ -76,7 +36,6 @@ router.post("/", async (req, res) => {
     await createNocoRecord({
       applicationId,
       customerId,
-      idempotencyKey,
       sku: payload.application.sku,
       brandName: payload.application.brandName,
       desiredDomain: payload.application.desiredDomain,
@@ -88,10 +47,33 @@ router.post("/", async (req, res) => {
       billingEmail: payload.customer.billingEmail,
       countryCode: payload.customer.countryCode,
       language: payload.customer.language,
-      applicationStatus: "submitted",
       submissionSource: "web-form",
       submittedAt,
       notes: "",
+
+      workflowStatus: "submitted",
+      statusUpdatedAt: submittedAt,
+      statusDetail: "Application submitted from the public request form.",
+
+      adminOwner: "",
+      reviewDecision: "pending",
+      reviewNotes: "",
+      reviewedAt: null,
+      priority: "normal",
+      internalTags: "",
+
+      provisioningRequested: false,
+      provisioningRequestedAt: null,
+      provisioningRunId: "",
+      domainProvider: "",
+      registeredDomain: "",
+      emailProvider: "",
+      emailAccountAddress: "",
+      hostingProvider: "",
+      storageTarget: "",
+      siteUrl: "",
+      provisioningNotes: "",
+      lastProvisioningError: "",
     });
 
     const response: CreateApplicationResponse = {
@@ -99,15 +81,9 @@ router.post("/", async (req, res) => {
       customerId,
       applicationStatus: "submitted",
       message:
-        "Your request has been received successfully. Our team will review the submission and continue with the next setup steps.",
+        "Your request has been received successfully. Our team will review the information provided and contact you with the next steps.",
     };
 
-    idempotencyStore.set(idempotencyKey, {
-      fingerprint,
-      response,
-    });
-
-    res.setHeader("Idempotency-Status", "created");
     return res.status(201).json(response);
   } catch (error) {
     return res.status(500).json({
