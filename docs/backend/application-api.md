@@ -259,6 +259,19 @@ src/
     errors/
 ```
 
+## Workflow initialization
+
+New application submissions now initialize a normalized workflow model in NocoDB.
+
+The backend sets default values for:
+
+- `workflowStatus`
+- status timestamps and detail
+- internal review fields
+- vendor-neutral provisioning fields
+
+This avoids redundant status fields and keeps the record model independent from specific infrastructure providers.
+
 ## Future extensions
 
 This API should later support:

@@ -6,27 +6,24 @@ This document tracks the implementation status of the public ApexTalenti web app
 
 ## Current milestone
 
-### Iteration 7: Duplicate submission protection and idempotent backend writes
+### Iteration 8: Corporate landing page, result-only submission state, and normalized workflow model
 
 Implemented:
 
-- professional landing page and request form
-- frontend submission to backend service
-- shared schema contracts
-- NocoDB persistence
-- frontend duplicate-submit protection after successful request
-- frontend regeneration of request identity when form data changes
-- backend `Idempotency-Key` enforcement
-- backend cached replay behavior for repeated identical submissions
-- conflict response when the same idempotency key is reused with a different payload
-- Turbopack workspace-root configuration for the monorepo
+- public-facing request page with a more corporate presentation
+- form replaced by a submission result state after successful request
+- page refresh required before a new request can be started
+- normalized NocoDB workflow model using a single canonical status field
+- admin workflow fields for internal review
+- vendor-neutral provisioning fields for future automation and provider flexibility
+- backend initialization of workflow, review, and provisioning-ready data
 
 Not yet implemented:
 
-- persistent idempotency storage
-- multi-instance backend deduplication
-- workflow execution after application submission
-- registrar, mailbox, and S3 provisioning
+- n8n-triggered execution
+- registrar automation
+- email provisioning automation
+- hosting deployment automation
 
 ## Repository paths
 

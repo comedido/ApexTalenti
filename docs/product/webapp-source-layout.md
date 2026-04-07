@@ -74,7 +74,6 @@ ApexTalenti
 
 ## Notes
 
-- `apps/web/src/features/application-form/components/ApplicationForm.tsx` now manages frontend submission locking and regenerates an idempotency key when the form changes.
-- `apps/web/src/features/application-form/lib/api.ts` sends the `Idempotency-Key` header to the backend service.
-- `apps/api/src/routes/applications.ts` enforces backend idempotency and prevents duplicate NocoDB writes for repeated identical requests.
-- `apps/web/next.config.ts` defines `turbopack.root` to align Next.js with the monorepo root.
+- `apps/web/src/features/application-form/components/ApplicationForm.tsx` now replaces the form with a submission result view after a successful request.
+- `apps/web/src/app/page.tsx` includes a more corporate overview section above the application form.
+- `apps/api/src/routes/applications.ts` initializes the normalized workflow, review, and provider-neutral provisioning fields for every new NocoDB record.
