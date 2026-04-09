@@ -1,2 +1,10 @@
 node_modules
 apps/api/.env
+
+dist/
+.next/
+coverage/
+*.log
+.env
+.env.*
+!.env.example
