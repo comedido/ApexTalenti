@@ -4,6 +4,7 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   allowedDevOrigins: [
     "10.10.10.118",
+    "10.10.10.118:3000",
     "localhost:3000",
     "127.0.0.1:3000",
     "apextalenti.nube53.com",

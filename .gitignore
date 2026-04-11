@@ -8,6 +8,7 @@ node_modules/
 dist/
 .next/
 out/
+coverage/
 
 # coverage
 coverage/
@@ -20,8 +21,17 @@ yarn-error.log*
 
 # env
 .env
-.env.*
-!.env.example
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# app-specific local env files
+apps/web/.env.local
+apps/api/.env
+
+# allow example files
+!*.example
 
 # OS/editor
 .DS_Store
