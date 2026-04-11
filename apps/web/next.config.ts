@@ -3,11 +3,12 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   allowedDevOrigins: [
-    "10.10.10.118",
-    "10.10.10.118:3000",
     "localhost:3000",
     "127.0.0.1:3000",
-    "apextalenti.nube53.com",
+    "10.10.10.118:3000",
+    "10.10.10.118",
+    "apextalanti.nube53.com",
+    "apextalanti.transformacionesdigitales.com",
   ],
   turbopack: {
     root: path.join(__dirname, "../.."),
