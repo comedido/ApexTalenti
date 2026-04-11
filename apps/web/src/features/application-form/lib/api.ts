@@ -12,9 +12,13 @@ export async function createApplication(
 ): Promise<CreateApplicationResponse> {
   const validatedPayload = createApplicationRequestSchema.parse(payload);
 
-  const endpoint = config.applicationApiBaseUrl
-    ? `${config.applicationApiBaseUrl}/api/applications`
-    : "/api/applications";
+  if (!config.applicationApiBaseUrl) {
+    throw new Error(
+      "Application API base URL is not configured. Check apps/web/.env.local.",
+    );
+  }
+
+  const endpoint = `${config.applicationApiBaseUrl}/api/applications`;
 
   const response = await fetch(endpoint, {
     method: "POST",
