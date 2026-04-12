@@ -27,7 +27,7 @@ const skuOptions: Array<{
     value: "basic",
     title: "Basic",
     description:
-      "A complete starter package covering domain intake, a professional static web presence, and provisioning-ready business setup preparation.",
+      "A launch-focused package combining domain setup planning, a polished business landing page, and branded communication foundations.",
     pill: "Available now",
     available: true,
   },
@@ -35,7 +35,7 @@ const skuOptions: Array<{
     value: "premium",
     title: "Premium",
     description:
-      "Expanded delivery for businesses that require broader service scope and additional operational setup.",
+      "Expanded delivery for businesses that want a broader presence, stronger presentation, and additional setup support.",
     pill: "Planned",
     available: false,
   },
@@ -43,7 +43,7 @@ const skuOptions: Array<{
     value: "enterprise",
     title: "Enterprise",
     description:
-      "A tailored package for organizations that need a more advanced operational model and scalable delivery path.",
+      "A tailored engagement for organizations that need a more advanced digital presence and broader service scope.",
     pill: "Planned",
     available: false,
   },
@@ -206,23 +206,30 @@ export function ApplicationForm() {
   }
 
   return (
-    <section className="form-section">
+    <section className="form-section form-section--enhanced">
       <div className="section-heading">
         <p className="eyebrow">Application</p>
         <h2>Request the Basic package</h2>
         <p>
-          Submit your business and brand details to request review for the Basic
-          package, including domain intake, a professional landing page, and
-          operational setup preparation.
+          Share your business and brand details to request a launch package
+          built to help you establish a stronger online presence from the start.
         </p>
       </div>
 
-      <div className="offering-summary">
-        <h3>What is included</h3>
+      <div className="offering-summary offering-summary--enhanced">
+        <h3>What the Basic package helps you achieve</h3>
         <ul>
-          <li>Professional business landing page delivery.</li>
-          <li>Preferred domain intake and review for the requested brand.</li>
-          <li>Operationally structured intake for downstream provisioning.</li>
+          <li>
+            Present your business with a more polished and credible online
+            identity.
+          </li>
+          <li>
+            Align your domain presence with your business name and brand
+            direction.
+          </li>
+          <li>
+            Build a stronger foundation for customer-facing communication.
+          </li>
         </ul>
       </div>
 
@@ -401,8 +408,8 @@ export function ApplicationForm() {
 
         <div className="form-meta">
           <p className="helper-text">
-            Submitted requests enter an internal review workflow before any
-            provisioning activity begins.
+            Complete the form below to request your package and receive a
+            response from our team.
           </p>
         </div>
 

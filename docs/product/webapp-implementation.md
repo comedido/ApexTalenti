@@ -82,3 +82,30 @@ The provisioning workflow discussion introduced the following changes:
 - provisioning is planned as an asynchronous multi-step workflow
 - Route 53, Forward Email, and Cloudflare Pages are the current preferred providers
 - Verifalia is reserved for post-email-setup verification
+
+## Frontend presentation refresh
+
+A visual refresh was applied to the public landing page without changing functionality.
+
+Changes included:
+
+- more dynamic, cloud-tech-inspired hero section
+- richer visual hierarchy and layered decorative styling
+- new business-value content sections
+- stronger public-facing feature framing
+- removal of internal workflow language from the marketing page
+- enhanced section styling for a more eye-catching and premium presentation
+
+## Frontend presentation refresh, pass 2
+
+A second visual and copy refinement pass was applied to the public landing page.
+
+Changes included:
+
+- shorter, more benefit-driven hero headline
+- improved line fill and tighter headline formatting
+- trust-band style benefit strip
+- stronger value cards near the top of the page
+- new CTA band above the application form
+- more dynamic section rhythm inspired by modern SaaS and cloud landing pages
+- no functional changes to submission or backend integration

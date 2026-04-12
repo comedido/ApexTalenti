@@ -1,24 +1,44 @@
 export function Hero() {
   return (
-    <section className="hero">
+    <section className="hero hero--enhanced">
+      <div className="hero__bg" aria-hidden="true">
+        <div className="hero__orb hero__orb--one" />
+        <div className="hero__orb hero__orb--two" />
+        <div className="hero__grid" />
+      </div>
+
       <div className="hero__content">
-        <p className="eyebrow">ApexTalenti</p>
+        <div className="hero__badge-row">
+          <p className="eyebrow">ApexTalenti</p>
+          <span className="hero__mini-badge">Business Launch Package</span>
+        </div>
+
         <h1>
-          Business web presence and operational onboarding for new and growing
-          companies
+          Launch smarter.
+          <br />
+          Look established.
         </h1>
+
         <p className="hero__description">
-          ApexTalenti helps businesses establish a credible digital presence
-          with structured intake, domain review, web delivery planning, and
-          provisioning‑ready operational data. The Basic package is designed for
-          organizations that need a professional starting point with clear
-          scope, business‑oriented review, and readiness for downstream
-          execution.
+          Build a stronger first impression with a branded domain, a polished
+          landing page, and business-ready communication foundations designed to
+          help your company look credible from day one.
         </p>
+
+        <div className="hero__actions">
+          <a href="#application" className="hero__primary-link">
+            Start your request
+          </a>
+          <span className="hero__secondary-note">
+            Fast setup for founders, small businesses, and new service brands
+          </span>
+        </div>
+
         <div className="hero__highlights">
-          <span>Structured intake</span>
-          <span>Corporate web presence</span>
-          <span>Operational readiness</span>
+          <span>Branded domain</span>
+          <span>Modern landing page</span>
+          <span>Business email base</span>
+          <span>Launch-ready package</span>
         </div>
       </div>
     </section>
