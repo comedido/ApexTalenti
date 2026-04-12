@@ -282,3 +282,15 @@ This API should later support:
 - CRM sync hooks
 - Premium and Enterprise application intake
 - status retrieval endpoints for customer portal use
+
+## Documentation checkpoint: provisioning workflow decisions
+
+The API remains responsible for intake and initialization of workflow-ready records.
+
+Current documented assumptions:
+
+- `workflowStatus` is the canonical operational status field
+- vendor-neutral provisioning fields are used in the persisted record model
+- `idempotencyKey` is not part of the current implementation path
+- the default mailbox alias convention is `admin@<registeredDomain>`
+- asynchronous provisioning is expected for email-related completion

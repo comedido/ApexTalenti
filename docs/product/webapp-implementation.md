@@ -67,3 +67,18 @@ Planned additions:
 - validation messages
 - typed request model
 - preparation for backend API integration
+
+## Conversation checkpoint: 2026-04-12
+
+The provisioning workflow discussion introduced the following changes:
+
+- the application form now targets a result-only success state after submission
+- page refresh is required for a new submission
+- idempotency is removed from the current implementation scope
+- the landing page direction is now more corporate and business-facing
+- the workflow model uses `workflowStatus` as the main operational status field
+- provider-specific schema fields were replaced with vendor-neutral provisioning fields
+- the default mailbox alias is `admin@<registeredDomain>`
+- provisioning is planned as an asynchronous multi-step workflow
+- Route 53, Forward Email, and Cloudflare Pages are the current preferred providers
+- Verifalia is reserved for post-email-setup verification

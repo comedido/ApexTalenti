@@ -68,3 +68,18 @@ It does not communicate directly with:
 - provider APIs
 
 This rule should remain in place throughout future iterations.
+
+## Current provisioning direction
+
+The current workflow direction is:
+
+- intake handled by the web app and backend API
+- workflow state persisted in NocoDB
+- n8n orchestrates provisioning
+- AWS Route 53 used for DNS
+- Forward Email used for mailbox alias provisioning
+- Cloudflare Pages used for static hosting
+- email activation handled asynchronously after DNS setup
+- Verifalia used only as an optional post-email-provision verification step
+
+The implementation is currently paused for documentation synchronization before the next iteration resumes.

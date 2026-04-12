@@ -83,6 +83,7 @@ nav:
       - Web application UI: product/webapp-ui.md
       - Web application implementation: product/webapp-implementation.md
       - Web application source layout: product/webapp-source-layout.md
+      - Webapp Implementation: product/webapp-implementation.md
   - Backend:
       - Overview: backend/index.md
       - Data model: backend/data-model.md
@@ -101,5 +102,7 @@ nav:
       - Overview: decisions/index.md
       - ADR-001 Docs stack: decisions/adr-001-docs-stack.md
       - ADR-002 CRM agnostic model: decisions/adr-002-crm-agnostic-model.md
+      - Provisioning Workflow Conversation 2026-04-12: decisions/2026-04-12-provisioning-workflow-conversation.md
+      - Perplexity Conversation: https://www.perplexity.ai/search/i-have-a-typescript-project-fo-7q5yLppNSFOCHjjZYYCXYw
 extra:
   generator: false
