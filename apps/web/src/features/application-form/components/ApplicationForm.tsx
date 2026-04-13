@@ -16,13 +16,81 @@ import {
 
 type TouchedState = Partial<Record<keyof ApplicationFormValues, boolean>>;
 
-const skuOptions: Array<{
+type ApplicationFormCopy = {
+  eyebrow: string;
+  title: string;
+  description: string;
+  summaryTitle: string;
+  summaryItems: [string, string, string];
+  formLegend: string;
+  fullNameLabel: string;
+  fullNamePlaceholder: string;
+  emailLabel: string;
+  emailPlaceholder: string;
+  brandNameLabel: string;
+  brandNamePlaceholder: string;
+  desiredDomainLabel: string;
+  desiredDomainPlaceholder: string;
+  activityTypeLabel: string;
+  activityTypePlaceholder: string;
+  activityDescriptionLabel: string;
+  activityDescriptionPlaceholder: string;
+  helperText: string;
+  submitButton: string;
+  submittingButton: string;
+  successEyebrow: string;
+  successTitle: string;
+  successLockedText: string;
+  referenceLabel: string;
+  errorPrefix: string;
+};
+
+type ApplicationFormSkuOption = {
   value: SkuValue;
   title: string;
   description: string;
   pill: string;
   available: boolean;
-}> = [
+};
+
+const defaultCopy: ApplicationFormCopy = {
+  eyebrow: "Application",
+  title: "Request the Basic package",
+  description:
+    "Share your business and brand details to request a launch package built to help you establish a stronger online presence from the start.",
+  summaryTitle: "What the Basic package helps you achieve",
+  summaryItems: [
+    "Present your business with a more polished and credible online identity.",
+    "Align your domain presence with your business name and brand direction.",
+    "Build a stronger foundation for customer-facing communication.",
+  ],
+  formLegend: "Select your package",
+  fullNameLabel: "Full name",
+  fullNamePlaceholder: "Jane Doe",
+  emailLabel: "Email address",
+  emailPlaceholder: "jane@example.com",
+  brandNameLabel: "Brand name",
+  brandNamePlaceholder: "New Brand",
+  desiredDomainLabel: "Preferred domain",
+  desiredDomainPlaceholder: "newbrand.com",
+  activityTypeLabel: "Business activity",
+  activityTypePlaceholder: "Dental clinic",
+  activityDescriptionLabel: "Business description",
+  activityDescriptionPlaceholder:
+    "Briefly describe the products or services your business provides",
+  helperText:
+    "Complete the form below to request your package and receive a response from our team.",
+  submitButton: "Submit request",
+  submittingButton: "Submitting...",
+  successEyebrow: "Request submitted",
+  successTitle: "Your request has been received",
+  successLockedText:
+    "This page is locked after submission to prevent duplicate requests. Refresh the page if you need to start a new application.",
+  referenceLabel: "Reference",
+  errorPrefix: "Submission error:",
+};
+
+const defaultSkuOptions: ApplicationFormSkuOption[] = [
   {
     value: "basic",
     title: "Basic",
@@ -49,7 +117,15 @@ const skuOptions: Array<{
   },
 ];
 
-export function ApplicationForm() {
+export function ApplicationForm({
+  submissionSource = "apextalenti-web-form",
+  copy = defaultCopy,
+  skuOptions = defaultSkuOptions,
+}: {
+  submissionSource?: string;
+  copy?: ApplicationFormCopy;
+  skuOptions?: ApplicationFormSkuOption[];
+}) {
   const [values, setValues] = useState<ApplicationFormValues>(
     initialApplicationFormValues,
   );
@@ -162,7 +238,7 @@ export function ApplicationForm() {
       setServerMessage("");
       setApplicationRef(null);
 
-      const data = await createApplication(payload);
+      const data = await createApplication(payload, submissionSource);
 
       setSubmitted(true);
       setServerMessage(data.message);
@@ -188,18 +264,15 @@ export function ApplicationForm() {
     return (
       <section className="form-section">
         <div className="submission-result submission-result--success">
-          <p className="eyebrow">Request submitted</p>
-          <h2>Your request has been received</h2>
+          <p className="eyebrow">{copy.successEyebrow}</p>
+          <h2>{copy.successTitle}</h2>
           <p>{serverMessage}</p>
           {applicationRef ? (
             <p className="reference-text">
-              Reference: <code>{applicationRef}</code>
+              {copy.referenceLabel}: <code>{applicationRef}</code>
             </p>
           ) : null}
-          <p className="helper-text">
-            This page is locked after submission to prevent duplicate requests.
-            Refresh the page if you need to start a new application.
-          </p>
+          <p className="helper-text">{copy.successLockedText}</p>
         </div>
       </section>
     );
@@ -208,34 +281,23 @@ export function ApplicationForm() {
   return (
     <section className="form-section form-section--enhanced">
       <div className="section-heading">
-        <p className="eyebrow">Application</p>
-        <h2>Request the Basic package</h2>
-        <p>
-          Share your business and brand details to request a launch package
-          built to help you establish a stronger online presence from the start.
-        </p>
+        <p className="eyebrow">{copy.eyebrow}</p>
+        <h2>{copy.title}</h2>
+        <p>{copy.description}</p>
       </div>
 
       <div className="offering-summary offering-summary--enhanced">
-        <h3>What the Basic package helps you achieve</h3>
+        <h3>{copy.summaryTitle}</h3>
         <ul>
-          <li>
-            Present your business with a more polished and credible online
-            identity.
-          </li>
-          <li>
-            Align your domain presence with your business name and brand
-            direction.
-          </li>
-          <li>
-            Build a stronger foundation for customer-facing communication.
-          </li>
+          <li>{copy.summaryItems[0]}</li>
+          <li>{copy.summaryItems[1]}</li>
+          <li>{copy.summaryItems[2]}</li>
         </ul>
       </div>
 
       <form className="application-form" onSubmit={handleSubmit} noValidate>
         <fieldset className="sku-selector">
-          <legend>Select your package</legend>
+          <legend>{copy.formLegend}</legend>
 
           <div className="sku-grid sku-grid--selectable">
             {skuOptions.map((sku) => {
@@ -276,11 +338,11 @@ export function ApplicationForm() {
 
         <div className="field-grid">
           <label>
-            Full name
+            {copy.fullNameLabel}
             <input
               type="text"
               name="fullName"
-              placeholder="Jane Doe"
+              placeholder={copy.fullNamePlaceholder}
               value={values.fullName}
               onChange={handleChange}
               onBlur={handleBlur}
@@ -297,11 +359,11 @@ export function ApplicationForm() {
           </label>
 
           <label>
-            Email address
+            {copy.emailLabel}
             <input
               type="email"
               name="email"
-              placeholder="jane@example.com"
+              placeholder={copy.emailPlaceholder}
               value={values.email}
               onChange={handleChange}
               onBlur={handleBlur}
@@ -318,11 +380,11 @@ export function ApplicationForm() {
           </label>
 
           <label>
-            Brand name
+            {copy.brandNameLabel}
             <input
               type="text"
               name="brandName"
-              placeholder="New Brand"
+              placeholder={copy.brandNamePlaceholder}
               value={values.brandName}
               onChange={handleChange}
               onBlur={handleBlur}
@@ -339,11 +401,11 @@ export function ApplicationForm() {
           </label>
 
           <label>
-            Preferred domain
+            {copy.desiredDomainLabel}
             <input
               type="text"
               name="desiredDomain"
-              placeholder="newbrand.com"
+              placeholder={copy.desiredDomainPlaceholder}
               value={values.desiredDomain}
               onChange={handleChange}
               onBlur={handleBlur}
@@ -363,11 +425,11 @@ export function ApplicationForm() {
         </div>
 
         <label>
-          Business activity
+          {copy.activityTypeLabel}
           <input
             type="text"
             name="activityType"
-            placeholder="Dental clinic"
+            placeholder={copy.activityTypePlaceholder}
             value={values.activityType}
             onChange={handleChange}
             onBlur={handleBlur}
@@ -384,10 +446,10 @@ export function ApplicationForm() {
         </label>
 
         <label>
-          Business description
+          {copy.activityDescriptionLabel}
           <textarea
             name="activityDescription"
-            placeholder="Briefly describe the products or services your business provides"
+            placeholder={copy.activityDescriptionPlaceholder}
             rows={5}
             value={values.activityDescription}
             onChange={handleChange}
@@ -407,10 +469,7 @@ export function ApplicationForm() {
         </label>
 
         <div className="form-meta">
-          <p className="helper-text">
-            Complete the form below to request your package and receive a
-            response from our team.
-          </p>
+          <p className="helper-text">{copy.helperText}</p>
         </div>
 
         <div className="form-actions">
@@ -420,13 +479,13 @@ export function ApplicationForm() {
               submitting || (hasErrors && Object.keys(touched).length > 0)
             }
           >
-            {submitting ? "Submitting..." : "Submit request"}
+            {submitting ? copy.submittingButton : copy.submitButton}
           </button>
         </div>
 
         {serverMessage && !submitted ? (
           <div className="error-message" role="status" aria-live="polite">
-            <strong>Submission error:</strong> {serverMessage}
+            <strong>{copy.errorPrefix}</strong> {serverMessage}
           </div>
         ) : null}
       </form>

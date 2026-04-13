@@ -9,6 +9,7 @@ import {
 
 export async function createApplication(
   payload: CreateApplicationRequest,
+  submissionSource = "web-form",
 ): Promise<CreateApplicationResponse> {
   const validatedPayload = createApplicationRequestSchema.parse(payload);
 
@@ -24,6 +25,7 @@ export async function createApplication(
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      "x-submission-source": submissionSource,
     },
     body: JSON.stringify(validatedPayload),
   });
