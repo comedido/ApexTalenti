@@ -1,4 +1,4 @@
-import { config } from "../config";
+import { config } from "../config.js";
 export async function createNocoRecord(record) {
     if (!config.nocodbToken) {
         throw new Error("NOCODB_TOKEN is not configured.");

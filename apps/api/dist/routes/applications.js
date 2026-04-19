@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { createApplicationRequestSchema, } from "@apextalenti/contracts";
-import { createNocoRecord } from "../lib/nocodb";
+import { createNocoRecord } from "../lib/nocodb.js";
 const router = Router();
 function makeId(prefix) {
     const randomPart = Math.random().toString(36).slice(2, 10);
@@ -22,6 +22,7 @@ router.post("/", async (req, res) => {
     const applicationId = makeId("app");
     const customerId = makeId("cus");
     const submittedAt = new Date().toISOString();
+    const submissionSource = req.header("x-submission-source")?.trim() || "web-form";
     try {
         await createNocoRecord({
             applicationId,
@@ -37,7 +38,7 @@ router.post("/", async (req, res) => {
             billingEmail: payload.customer.billingEmail,
             countryCode: payload.customer.countryCode,
             language: payload.customer.language,
-            submissionSource: "web-form",
+            submissionSource,
             submittedAt,
             notes: "",
             workflowStatus: "submitted",

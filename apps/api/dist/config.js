@@ -1,9 +1,29 @@
 import dotenv from "dotenv";
-dotenv.config();
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+dotenv.config({
+    path: path.resolve(__dirname, "../.env"),
+});
+function requireEnv(name) {
+    const value = process.env[name];
+    if (!value) {
+        throw new Error(`Missing required environment variable: ${name}`);
+    }
+    return value;
+}
+function parseCsv(value) {
+    return (value ?? "")
+        .split(",")
+        .map((item) => item.trim())
+        .filter(Boolean);
+}
 export const config = {
-    port: Number(process.env.PORT || 4000),
-    corsOrigin: process.env.CORS_ORIGIN || "http://localhost:3000",
-    nocodbBaseUrl: process.env.NOCODB_BASE_URL || "http://10.10.10.187:8080",
-    nocodbToken: process.env.NOCODB_TOKEN || "",
-    nocodbTablePath: process.env.NOCODB_TABLE_PATH || "",
+    port: Number(process.env.PORT ?? 4000),
+    host: process.env.HOST ?? "0.0.0.0",
+    corsOrigins: parseCsv(process.env.CORS_ORIGIN),
+    nocodbBaseUrl: requireEnv("NOCODB_BASE_URL"),
+    nocodbToken: requireEnv("NOCODB_TOKEN"),
+    nocodbTablePath: requireEnv("NOCODB_TABLE_PATH"),
 };

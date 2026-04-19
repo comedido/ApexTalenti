@@ -22,7 +22,7 @@
       "@/*": ["./src/*"],
       "@apextalenti/contracts": ["../../packages/contracts/src/index.ts"]
     },
-    "ignoreDeprecations": "6.0"
+    "ignoreDeprecations": "5.0"
   },
   "include": [
     "next-env.d.ts",

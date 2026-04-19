@@ -3,7 +3,7 @@ import {
   CreateApplicationResponse,
   createApplicationRequestSchema,
 } from "@apextalenti/contracts";
-import { createNocoRecord } from "../lib/nocodb";
+import { createNocoRecord } from "../lib/nocodb.js";
 
 const router = Router();
 
