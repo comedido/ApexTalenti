@@ -8,7 +8,7 @@ const nextConfig: NextConfig = {
     "10.10.10.118:3000",
     "10.10.10.118",
     "apextalanti.nube53.com",
-    "apextalanti.transformacionesdigitales.com",
+    "app.transformacionesdigitales.com",
   ],
   turbopack: {
     root: path.join(__dirname, "../.."),
