@@ -57,7 +57,6 @@ export function validateApplicationForm(
     errors.activityDescription = flattened.activityDescription?.[0];
   }
 
-  // Additional .com enforcement on the client side
   if (normalized.desiredDomain) {
     const lower = normalized.desiredDomain.toLowerCase();
     if (!lower.endsWith(".com")) {
@@ -65,8 +64,7 @@ export function validateApplicationForm(
     }
   }
 
-  // Strip undefined values
   return Object.fromEntries(
-    Object.entries(errors).filter(([, v]) => v !== undefined),
+    Object.entries(errors).filter(([, value]) => value !== undefined),
   ) as ApplicationFormErrors;
 }

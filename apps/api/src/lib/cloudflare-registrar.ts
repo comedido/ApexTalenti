@@ -34,10 +34,14 @@ async function cloudflareRequest(path: string, init?: RequestInit) {
     );
   }
 
-  return parsed;
+  return parsed as {
+    result?: unknown;
+    success?: boolean;
+    errors?: unknown[];
+    messages?: unknown[];
+  };
 }
 
-// 1) Search suggestions for an application (uses desiredDomain or brandName)
 export async function searchDomainForApplication(applicationId: string) {
   const application = await getApplicationById(applicationId);
 
@@ -62,7 +66,6 @@ export async function searchDomainForApplication(applicationId: string) {
   );
 }
 
-// 2) Check specific application's desiredDomain (.com only)
 export async function checkDomainForApplication(applicationId: string) {
   const application = await getApplicationById(applicationId);
 
@@ -88,7 +91,6 @@ export async function checkDomainForApplication(applicationId: string) {
   });
 }
 
-// 3) Register an application's desiredDomain (.com only)
 export async function registerDomainForApplication(applicationId: string) {
   const application = await getApplicationById(applicationId);
 
@@ -125,7 +127,6 @@ export async function registerDomainForApplication(applicationId: string) {
   });
 }
 
-// 4) Raw domain check by name (used for live validation from frontend)
 export async function rawDomainCheck(domain: string) {
   if (!domain.toLowerCase().endsWith(".com")) {
     throw new Error("Only .com domains are allowed.");

@@ -29,7 +29,7 @@ router.post("/search", async (req, res) => {
       ok: true,
       action: "search",
       applicationId,
-      result,
+      result: result.result ?? result,
     });
   } catch (error) {
     return res.status(400).json({
@@ -49,7 +49,7 @@ router.post("/check", async (req, res) => {
       ok: true,
       action: "check",
       applicationId,
-      result,
+      result: result.result ?? result,
     });
   } catch (error) {
     return res.status(400).json({
@@ -68,7 +68,7 @@ router.post("/register", async (req, res) => {
       ok: true,
       action: "register",
       applicationId,
-      result,
+      result: result.result ?? result,
     });
   } catch (error) {
     return res.status(400).json({
@@ -101,7 +101,7 @@ router.post("/check-domain", async (req, res) => {
       ok: true,
       action: "check-domain",
       domain: trimmed,
-      result,
+      result: result.result ?? result,
     });
   } catch (error) {
     return res.status(400).json({

@@ -77,11 +77,6 @@ export async function checkDomainByName(
 
   const endpoint = `${config.applicationApiBaseUrl}/api/registrar/check-domain`;
 
-  console.log("[domain-check] request", {
-    endpoint,
-    domain,
-  });
-
   const response = await fetch(endpoint, {
     method: "POST",
     headers: {
@@ -90,19 +85,9 @@ export async function checkDomainByName(
     body: JSON.stringify({ domain }),
   });
 
-  console.log("[domain-check] response-meta", {
-    status: response.status,
-    ok: response.ok,
-  });
-
   const data = (await response.json()) as DomainCheckResponse;
 
-  console.log("[domain-check] response-json", data);
-
   if (!response.ok || !data.ok) {
-    console.log("[domain-check] throwing-error", {
-      message: data.error || "Domain availability check failed.",
-    });
     throw new Error(data.error || "Domain availability check failed.");
   }
 
