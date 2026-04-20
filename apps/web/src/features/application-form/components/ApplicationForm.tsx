@@ -169,6 +169,14 @@ export function ApplicationForm({
   ) {
     const { name, value } = event.currentTarget;
 
+    console.log("[handleBlur] start", {
+      name,
+      rawValue: value,
+      currentValues: values,
+      currentErrors: errors,
+      currentTouched: touched,
+    });
+
     const nextTouched = {
       ...touched,
       [name]: true,
@@ -181,21 +189,36 @@ export function ApplicationForm({
 
     const nextErrors = validateApplicationForm(nextValues);
 
+    console.log("[handleBlur] computed", {
+      nextTouched,
+      nextValues,
+      nextErrors,
+    });
+
     setTouched(nextTouched);
     setValues(nextValues);
     setErrors(nextErrors);
 
     if (name !== "desiredDomain") {
+      console.log("[handleBlur] skip-non-domain");
       return;
     }
 
     const normalizedDomain = normalizeDomain(value);
 
+    console.log("[handleBlur] desiredDomain-normalized", {
+      normalizedDomain,
+    });
+
     if (!normalizedDomain) {
+      console.log("[handleBlur] early-return empty normalizedDomain");
       return;
     }
 
     if (nextErrors.desiredDomain) {
+      console.log("[handleBlur] early-return validation error", {
+        desiredDomainError: nextErrors.desiredDomain,
+      });
       return;
     }
 
@@ -203,10 +226,20 @@ export function ApplicationForm({
       setCheckingDomain(true);
       setDomainChecked(false);
 
+      console.log("[handleBlur] before-api-call", {
+        normalizedDomain,
+      });
+
       const response = await checkDomainByName(normalizedDomain);
+
+      console.log("[handleBlur] api-response", response);
+
       const checkedDomain = response.result?.domains?.[0];
 
+      console.log("[handleBlur] checkedDomain", checkedDomain);
+
       if (!checkedDomain) {
+        console.log("[handleBlur] no checkedDomain found");
         setErrors((current) => ({
           ...current,
           desiredDomain:
@@ -216,6 +249,7 @@ export function ApplicationForm({
       }
 
       if (!checkedDomain.registrable) {
+        console.log("[handleBlur] domain not registrable", checkedDomain);
         setErrors((current) => ({
           ...current,
           desiredDomain:
@@ -224,12 +258,20 @@ export function ApplicationForm({
         return;
       }
 
+      console.log("[handleBlur] domain registrable", checkedDomain);
+
       setErrors((current) => {
         const { desiredDomain, ...rest } = current;
+        console.log("[handleBlur] clearing desiredDomain error", {
+          previousDesiredDomainError: desiredDomain,
+          nextErrors: rest,
+        });
         return rest;
       });
+
       setDomainChecked(true);
     } catch (error) {
+      console.log("[handleBlur] catch", error);
       setErrors((current) => ({
         ...current,
         desiredDomain:
@@ -238,6 +280,7 @@ export function ApplicationForm({
             : "No se ha podido comprobar la disponibilidad del dominio.",
       }));
     } finally {
+      console.log("[handleBlur] finally");
       setCheckingDomain(false);
     }
   }
