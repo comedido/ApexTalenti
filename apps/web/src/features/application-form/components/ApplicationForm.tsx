@@ -1,10 +1,11 @@
 "use client";
 
-import { ChangeEvent, FormEvent, useMemo, useState } from "react";
+import { ChangeEvent, FocusEvent, FormEvent, useMemo, useState } from "react";
 import { createApplication, checkDomainByName } from "../lib/api";
 import {
   initialApplicationFormValues,
   normalizeApplicationFormValues,
+  normalizeDomain,
   validateApplicationForm,
 } from "../lib/validation";
 import {
@@ -162,15 +163,14 @@ export function ApplicationForm({
     }
 
     if (name === "desiredDomain") {
-      // reset domain check state when user edits the field
       setDomainChecked(false);
     }
   }
 
   async function handleBlur(
-    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    event: FocusEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) {
-    const { name } = event.target;
+    const { name } = event.currentTarget;
 
     const nextTouched = {
       ...touched,
@@ -178,17 +178,22 @@ export function ApplicationForm({
     };
 
     setTouched(nextTouched);
-    setErrors(validateApplicationForm(values));
+
+    const nextValues = {
+      ...values,
+      [name]: event.currentTarget.value,
+    } as ApplicationFormValues;
+
+    setErrors(validateApplicationForm(nextValues));
 
     if (name === "desiredDomain") {
-      const rawDomain = values.desiredDomain.trim();
-      if (!rawDomain) {
+      const normalizedDomain = normalizeDomain(event.currentTarget.value);
+
+      if (!normalizedDomain) {
         return;
       }
 
-      // basic client-side .com rule (kept in sync with validation.ts)
-      const lower = rawDomain.toLowerCase();
-      if (!lower.endsWith(".com")) {
+      if (!normalizedDomain.endsWith(".com")) {
         setErrors((current) => ({
           ...current,
           desiredDomain: "Solo se permiten dominios .com.",
@@ -200,9 +205,11 @@ export function ApplicationForm({
         setCheckingDomain(true);
         setDomainChecked(false);
 
-        const response = await checkDomainByName(rawDomain);
+        const response = await checkDomainByName(normalizedDomain);
         const domains = response.result?.domains ?? [];
-        const match = domains.find((d) => d.name.toLowerCase() === lower);
+        const match = domains.find(
+          (domain) => domain.name.toLowerCase() === normalizedDomain,
+        );
 
         if (!match) {
           setErrors((current) => ({
@@ -219,14 +226,14 @@ export function ApplicationForm({
             desiredDomain:
               "Este dominio no está disponible. Por favor, elige otro .com.",
           }));
-        } else {
-          // clear any previous error for desiredDomain
-          setErrors((current) => {
-            const { desiredDomain, ...rest } = current;
-            return rest;
-          });
-          setDomainChecked(true);
+          return;
         }
+
+        setErrors((current) => {
+          const { desiredDomain, ...rest } = current;
+          return rest;
+        });
+        setDomainChecked(true);
       } catch (error) {
         setErrors((current) => ({
           ...current,
@@ -551,7 +558,9 @@ export function ApplicationForm({
           <button
             type="submit"
             disabled={
-              submitting || (hasErrors && Object.keys(touched).length > 0)
+              submitting ||
+              checkingDomain ||
+              (hasErrors && Object.keys(touched).length > 0)
             }
           >
             {submitting ? copy.submittingButton : copy.submitButton}
