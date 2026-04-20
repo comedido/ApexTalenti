@@ -56,6 +56,11 @@ type DomainCheckResponse = {
       name: string;
       registrable: boolean;
       reason?: string;
+      pricing?: {
+        currency: string;
+        registration_cost: string;
+        renewal_cost: string;
+      };
     }[];
   };
   error?: string;

@@ -136,7 +136,6 @@ export function ApplicationForm({
   const [submitting, setSubmitting] = useState(false);
   const [serverMessage, setServerMessage] = useState("");
   const [applicationRef, setApplicationRef] = useState<string | null>(null);
-
   const [checkingDomain, setCheckingDomain] = useState(false);
   const [domainChecked, setDomainChecked] = useState(false);
 
@@ -149,102 +148,97 @@ export function ApplicationForm({
   ) {
     const { name, value } = event.target;
 
-    setValues((current) => ({
-      ...current,
+    const nextValues = {
+      ...values,
       [name]: value,
-    }));
+    } as ApplicationFormValues;
 
-    if (touched[name as keyof ApplicationFormValues]) {
-      const nextValues = {
-        ...values,
-        [name]: value,
-      };
-      setErrors(validateApplicationForm(nextValues));
-    }
+    setValues(nextValues);
 
     if (name === "desiredDomain") {
       setDomainChecked(false);
+    }
+
+    if (touched[name as keyof ApplicationFormValues]) {
+      setErrors(validateApplicationForm(nextValues));
     }
   }
 
   async function handleBlur(
     event: FocusEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) {
-    const { name } = event.currentTarget;
+    const { name, value } = event.currentTarget;
 
     const nextTouched = {
       ...touched,
       [name]: true,
     };
 
-    setTouched(nextTouched);
-
     const nextValues = {
       ...values,
-      [name]: event.currentTarget.value,
+      [name]: value,
     } as ApplicationFormValues;
 
-    setErrors(validateApplicationForm(nextValues));
+    const nextErrors = validateApplicationForm(nextValues);
 
-    if (name === "desiredDomain") {
-      const normalizedDomain = normalizeDomain(event.currentTarget.value);
+    setTouched(nextTouched);
+    setValues(nextValues);
+    setErrors(nextErrors);
 
-      if (!normalizedDomain) {
-        return;
-      }
+    if (name !== "desiredDomain") {
+      return;
+    }
 
-      if (!normalizedDomain.endsWith(".com")) {
-        setErrors((current) => ({
-          ...current,
-          desiredDomain: "Solo se permiten dominios .com.",
-        }));
-        return;
-      }
+    const normalizedDomain = normalizeDomain(value);
 
-      try {
-        setCheckingDomain(true);
-        setDomainChecked(false);
+    if (!normalizedDomain) {
+      return;
+    }
 
-        const response = await checkDomainByName(normalizedDomain);
-        const domains = response.result?.domains ?? [];
-        const match = domains.find(
-          (domain) => domain.name.toLowerCase() === normalizedDomain,
-        );
+    if (nextErrors.desiredDomain) {
+      return;
+    }
 
-        if (!match) {
-          setErrors((current) => ({
-            ...current,
-            desiredDomain:
-              "No se ha podido comprobar la disponibilidad del dominio.",
-          }));
-          return;
-        }
+    try {
+      setCheckingDomain(true);
+      setDomainChecked(false);
 
-        if (!match.registrable) {
-          setErrors((current) => ({
-            ...current,
-            desiredDomain:
-              "Este dominio no está disponible. Por favor, elige otro .com.",
-          }));
-          return;
-        }
+      const response = await checkDomainByName(normalizedDomain);
+      const checkedDomain = response.result?.domains?.[0];
 
-        setErrors((current) => {
-          const { desiredDomain, ...rest } = current;
-          return rest;
-        });
-        setDomainChecked(true);
-      } catch (error) {
+      if (!checkedDomain) {
         setErrors((current) => ({
           ...current,
           desiredDomain:
-            error instanceof Error
-              ? error.message
-              : "No se ha podido comprobar la disponibilidad del dominio.",
+            "No se ha podido comprobar la disponibilidad del dominio.",
         }));
-      } finally {
-        setCheckingDomain(false);
+        return;
       }
+
+      if (!checkedDomain.registrable) {
+        setErrors((current) => ({
+          ...current,
+          desiredDomain:
+            "Este dominio no está disponible. Por favor, elige otro .com.",
+        }));
+        return;
+      }
+
+      setErrors((current) => {
+        const { desiredDomain, ...rest } = current;
+        return rest;
+      });
+      setDomainChecked(true);
+    } catch (error) {
+      setErrors((current) => ({
+        ...current,
+        desiredDomain:
+          error instanceof Error
+            ? error.message
+            : "No se ha podido comprobar la disponibilidad del dominio.",
+      }));
+    } finally {
+      setCheckingDomain(false);
     }
   }
 
@@ -263,7 +257,7 @@ export function ApplicationForm({
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    if (submitting || submitted) {
+    if (submitting || submitted || checkingDomain) {
       return;
     }
 
