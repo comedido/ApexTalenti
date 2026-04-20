@@ -90,16 +90,17 @@ export default function FormPage() {
               fullNameLabel: "Nombre completo",
               fullNamePlaceholder: "Nombre y apellidos",
               emailLabel: "Correo electrónico",
-              emailPlaceholder: "nombre@empresa.com",
+              emailPlaceholder: "tu@email.com",
               brandNameLabel: "Nombre de marca o empresa",
-              brandNamePlaceholder: "Nombre de tu empresa",
+              brandNamePlaceholder: "Tu futura marca o empresa",
               desiredDomainLabel: "Dominio preferido",
               desiredDomainPlaceholder: "tuempresa.com",
               activityTypeLabel: "Actividad del negocio",
-              activityTypePlaceholder: "Clínica dental",
+              activityTypePlaceholder:
+                "Ejemplo: Promociones Comerciales online",
               activityDescriptionLabel: "Descripción de la actividad",
               activityDescriptionPlaceholder:
-                "Describe brevemente los productos o servicios de tu negocio",
+                "Describe los productos o servicios de tu negocio, asi como cualquier detalle relevante sobre tu actividad, clientes o necesidades específicas que quieras compartir para producir una web corporativa y mensaje de mercado adecuado.",
               helperText:
                 "Completa el formulario para solicitar una propuesta y recibir una respuesta de nuestro equipo.",
               submitButton: "Enviar solicitud",
