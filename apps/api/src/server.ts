@@ -3,6 +3,7 @@ import express from "express";
 import cors from "cors";
 import { config } from "./config.js";
 import applicationsRouter from "./routes/applications.js";
+import registrarRouter from "./routes/registrar.js";
 
 const app = express();
 
@@ -26,6 +27,7 @@ app.get("/health", (_req, res) => {
 });
 
 app.use("/api/applications", applicationsRouter);
+app.use("/api/registrar", registrarRouter);
 
 app.listen(config.port, config.host, () => {
   console.log(`API listening on http://${config.host}:${config.port}`);

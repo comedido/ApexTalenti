@@ -1,7 +1,7 @@
 "use client";
 
 import { ChangeEvent, FormEvent, useMemo, useState } from "react";
-import { createApplication } from "../lib/api";
+import { createApplication, checkDomainByName } from "../lib/api";
 import {
   initialApplicationFormValues,
   normalizeApplicationFormValues,
@@ -136,6 +136,9 @@ export function ApplicationForm({
   const [serverMessage, setServerMessage] = useState("");
   const [applicationRef, setApplicationRef] = useState<string | null>(null);
 
+  const [checkingDomain, setCheckingDomain] = useState(false);
+  const [domainChecked, setDomainChecked] = useState(false);
+
   const hasErrors = useMemo(() => {
     return Object.keys(validateApplicationForm(values)).length > 0;
   }, [values]);
@@ -157,9 +160,14 @@ export function ApplicationForm({
       };
       setErrors(validateApplicationForm(nextValues));
     }
+
+    if (name === "desiredDomain") {
+      // reset domain check state when user edits the field
+      setDomainChecked(false);
+    }
   }
 
-  function handleBlur(
+  async function handleBlur(
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) {
     const { name } = event.target;
@@ -171,6 +179,66 @@ export function ApplicationForm({
 
     setTouched(nextTouched);
     setErrors(validateApplicationForm(values));
+
+    if (name === "desiredDomain") {
+      const rawDomain = values.desiredDomain.trim();
+      if (!rawDomain) {
+        return;
+      }
+
+      // basic client-side .com rule (kept in sync with validation.ts)
+      const lower = rawDomain.toLowerCase();
+      if (!lower.endsWith(".com")) {
+        setErrors((current) => ({
+          ...current,
+          desiredDomain: "Solo se permiten dominios .com.",
+        }));
+        return;
+      }
+
+      try {
+        setCheckingDomain(true);
+        setDomainChecked(false);
+
+        const response = await checkDomainByName(rawDomain);
+        const domains = response.result?.domains ?? [];
+        const match = domains.find((d) => d.name.toLowerCase() === lower);
+
+        if (!match) {
+          setErrors((current) => ({
+            ...current,
+            desiredDomain:
+              "No se ha podido comprobar la disponibilidad del dominio.",
+          }));
+          return;
+        }
+
+        if (!match.registrable) {
+          setErrors((current) => ({
+            ...current,
+            desiredDomain:
+              "Este dominio no está disponible. Por favor, elige otro .com.",
+          }));
+        } else {
+          // clear any previous error for desiredDomain
+          setErrors((current) => {
+            const { desiredDomain, ...rest } = current;
+            return rest;
+          });
+          setDomainChecked(true);
+        }
+      } catch (error) {
+        setErrors((current) => ({
+          ...current,
+          desiredDomain:
+            error instanceof Error
+              ? error.message
+              : "No se ha podido comprobar la disponibilidad del dominio.",
+        }));
+      } finally {
+        setCheckingDomain(false);
+      }
+    }
   }
 
   function handleSkuSelect(sku: SkuValue) {
@@ -416,10 +484,17 @@ export function ApplicationForm({
                   : undefined
               }
             />
+            {checkingDomain && !getFieldError("desiredDomain") ? (
+              <span className="field-hint">
+                Comprobando disponibilidad del dominio...
+              </span>
+            ) : null}
             {getFieldError("desiredDomain") ? (
               <span className="field-error" id="desiredDomain-error">
                 {getFieldError("desiredDomain")}
               </span>
+            ) : domainChecked ? (
+              <span className="field-success">Dominio disponible.</span>
             ) : null}
           </label>
         </div>

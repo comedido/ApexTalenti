@@ -28,7 +28,11 @@ export const config = {
   port: Number(process.env.PORT ?? 4000),
   host: process.env.HOST ?? "0.0.0.0",
   corsOrigins: parseCsv(process.env.CORS_ORIGIN),
+
   nocodbBaseUrl: requireEnv("NOCODB_BASE_URL"),
   nocodbToken: requireEnv("NOCODB_TOKEN"),
   nocodbTablePath: requireEnv("NOCODB_TABLE_PATH"),
+
+  cloudflareAccountId: requireEnv("CLOUDFLARE_ACCOUNT_ID"),
+  cloudflareRegistrarToken: requireEnv("CLOUDFLARE_REGISTRAR_TOKEN"),
 };

@@ -43,19 +43,30 @@ export function validateApplicationForm(
   const normalized = normalizeApplicationFormValues(values);
   const result = applicationFormSchema.safeParse(normalized);
 
-  if (result.success) {
-    return {};
+  const errors: ApplicationFormErrors = {};
+
+  if (!result.success) {
+    const flattened = result.error.flatten().fieldErrors;
+
+    errors.sku = flattened.sku?.[0];
+    errors.fullName = flattened.fullName?.[0];
+    errors.email = flattened.email?.[0];
+    errors.brandName = flattened.brandName?.[0];
+    errors.desiredDomain = flattened.desiredDomain?.[0];
+    errors.activityType = flattened.activityType?.[0];
+    errors.activityDescription = flattened.activityDescription?.[0];
   }
 
-  const flattened = result.error.flatten().fieldErrors;
+  // Additional .com enforcement on the client side
+  if (normalized.desiredDomain) {
+    const lower = normalized.desiredDomain.toLowerCase();
+    if (!lower.endsWith(".com")) {
+      errors.desiredDomain = "Solo se permiten dominios .com.";
+    }
+  }
 
-  return {
-    sku: flattened.sku?.[0],
-    fullName: flattened.fullName?.[0],
-    email: flattened.email?.[0],
-    brandName: flattened.brandName?.[0],
-    desiredDomain: flattened.desiredDomain?.[0],
-    activityType: flattened.activityType?.[0],
-    activityDescription: flattened.activityDescription?.[0],
-  };
+  // Strip undefined values
+  return Object.fromEntries(
+    Object.entries(errors).filter(([, v]) => v !== undefined),
+  ) as ApplicationFormErrors;
 }
