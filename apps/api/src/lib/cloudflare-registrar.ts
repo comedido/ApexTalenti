@@ -108,22 +108,32 @@ export async function registerDomainForApplication(applicationId: string) {
     throw new Error("Only .com domains are allowed for registration.");
   }
 
+  const registrantName =
+    application.primaryContactName?.trim() ||
+    application.customerDisplayName?.trim() ||
+    application.brandName?.trim();
+
+  const registrantEmail = application.primaryContactEmail?.trim();
+  const registrantCountry = application.countryCode?.trim() || "US";
+  const registrantOrganization = application.brandName?.trim() || undefined;
+
+  const payload = {
+    domain_name: domain,
+    auto_renew: true,
+    privacy: true,
+    registrant_contact: {
+      name: registrantName,
+      organization: registrantOrganization,
+      email: registrantEmail,
+      country: registrantCountry,
+    },
+  };
+
+  console.log("Cloudflare Registrar register payload:", payload);
+
   return cloudflareRequest("/registrar/registrations", {
     method: "POST",
-    body: JSON.stringify({
-      domain,
-      auto_renew: true,
-      privacy: true,
-      registrant_contact: {
-        name:
-          application.primaryContactName?.trim() ||
-          application.customerDisplayName?.trim() ||
-          application.brandName?.trim(),
-        organization: application.brandName?.trim() || undefined,
-        email: application.primaryContactEmail?.trim(),
-        country: application.countryCode?.trim() || "ES",
-      },
-    }),
+    body: JSON.stringify(payload),
   });
 }
 
