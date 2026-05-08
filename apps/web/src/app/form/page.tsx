@@ -115,7 +115,12 @@ export default function FormPage() {
             </>
           )}
 
-          <ApplicationStatusLookup language={language} />
+          <ApplicationStatusLookup
+            language={language}
+            primaryLinkClassName="td-primary-link"
+            secondaryButtonClassName="td-primary-link td-primary-link--secondary"
+            actionsClassName="hero__actions hero__actions--dual"
+          />
         </div>
       </section>
 

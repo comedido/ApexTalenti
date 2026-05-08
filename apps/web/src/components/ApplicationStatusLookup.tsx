@@ -21,6 +21,13 @@ type ApplicationStatusResponse = {
   timeline: TimelineItem[];
 };
 
+type ApplicationStatusLookupProps = {
+  language?: string;
+  primaryLinkClassName?: string;
+  secondaryButtonClassName?: string;
+  actionsClassName?: string;
+};
+
 function getLocalizedCopy(language: string | null | undefined) {
   const isSpanish = language?.toLowerCase().startsWith("es") ?? false;
 
@@ -67,9 +74,10 @@ function getLocalizedCopy(language: string | null | undefined) {
 
 export function ApplicationStatusLookup({
   language = "en",
-}: {
-  language?: string;
-}) {
+  primaryLinkClassName = "hero__primary-link",
+  secondaryButtonClassName = "hero__secondary-button",
+  actionsClassName = "hero__actions hero__actions--dual",
+}: ApplicationStatusLookupProps) {
   const panelId = useId();
   const [open, setOpen] = useState(false);
   const [applicationId, setApplicationId] = useState("");
@@ -126,14 +134,14 @@ export function ApplicationStatusLookup({
 
   return (
     <div className="application-status-block">
-      <div className="hero__actions hero__actions--dual">
-        <a href="#application" className="hero__primary-link">
+      <div className={actionsClassName}>
+        <a href="#application" className={primaryLinkClassName}>
           {copy.startRequest}
         </a>
 
         <button
           type="button"
-          className="hero__secondary-button"
+          className={secondaryButtonClassName}
           aria-expanded={open}
           aria-controls={panelId}
           onClick={() => setOpen((current) => !current)}

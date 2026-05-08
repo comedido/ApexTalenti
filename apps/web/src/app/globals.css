@@ -1245,3 +1245,14 @@ textarea[aria-invalid="true"] {
     width: 100%;
   }
 }
+.td-primary-link--secondary {
+  background: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  box-shadow: none;
+}
+
+.td-primary-link--secondary:hover {
+  background: rgba(255, 255, 255, 0.18);
+  color: #ffffff;
+}

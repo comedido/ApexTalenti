@@ -45,7 +45,12 @@ export function Hero({ language = "en" }: HeroProps) {
             : "Build a stronger first impression with a branded domain, a polished landing page, and business-ready communication foundations designed to help your company look credible from day one."}
         </p>
 
-        <ApplicationStatusLookup language={language} />
+        <ApplicationStatusLookup
+          language={language}
+          primaryLinkClassName="hero__primary-link"
+          secondaryButtonClassName="hero__secondary-button"
+          actionsClassName="hero__actions hero__actions--dual"
+        />
 
         <div className="hero__highlights">
           <span>{isSpanish ? "Dominio de marca" : "Branded domain"}</span>
