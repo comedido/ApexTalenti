@@ -3,8 +3,9 @@ import {
   CreateApplicationResponse,
   createApplicationRequestSchema,
 } from "@apextalenti/contracts";
-import { createNocoRecord } from "../lib/nocodb.js";
+import { createNocoRecord, getApplicationById } from "../lib/nocodb.js";
 import { sendApplicationEmails } from "../lib/email.js";
+import { buildApplicationTimeline } from "../lib/application-status.js";
 
 const router = Router();
 
@@ -12,6 +13,59 @@ function makeId(prefix: string) {
   const randomPart = Math.random().toString(36).slice(2, 10);
   return `${prefix}_${randomPart}`;
 }
+
+router.get("/:applicationId/status", async (req, res) => {
+  const applicationId = req.params.applicationId?.trim();
+
+  if (!applicationId) {
+    return res.status(400).json({
+      error: {
+        code: "INVALID_APPLICATION_ID",
+        message: "Application reference is required.",
+      },
+    });
+  }
+
+  try {
+    const record = await getApplicationById(applicationId);
+
+    if (!record) {
+      const isSpanish =
+        req.header("accept-language")?.toLowerCase().startsWith("es") ?? false;
+
+      return res.status(404).json({
+        error: {
+          code: "APPLICATION_NOT_FOUND",
+          message: isSpanish
+            ? "No hemos podido encontrar una solicitud con esa referencia."
+            : "We could not find an application with that reference.",
+        },
+      });
+    }
+
+    const timeline = buildApplicationTimeline(record);
+
+    return res.json({
+      applicationId: record.applicationId,
+      brandName: record.brandName,
+      currentStatus:
+        timeline.find((item) => item.state === "current")?.key ?? "submitted",
+      submittedAt: record.submittedAt,
+      language: record.language,
+      timeline,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      error: {
+        code: "APPLICATION_STATUS_LOOKUP_FAILED",
+        message:
+          error instanceof Error
+            ? error.message
+            : "Unexpected status lookup error.",
+      },
+    });
+  }
+});
 
 router.post("/", async (req, res) => {
   const validation = createApplicationRequestSchema.safeParse(req.body);
