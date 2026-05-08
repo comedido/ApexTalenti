@@ -1,7 +1,50 @@
+"use client";
+
 import { Hero } from "@/components/Hero";
 import { ApplicationForm } from "@/features/application-form/components/ApplicationForm";
+import { useBrowserLanguage } from "@/lib/useBrowserLanguage";
+
+const spanishCopy = {
+  eyebrow: "Solicitud",
+  title: "Solicita tu solución digital",
+  description:
+    "Comparte los datos principales de tu negocio para valorar una propuesta orientada a presencia digital profesional, privacidad y confidencialidad.",
+  summaryTitle: "Lo que esta solución te ayuda a conseguir",
+  summaryItems: [
+    "Presentar tu negocio con una imagen online más profesional, sólida y creíble.",
+    "Alinear dominio, marca y presencia pública con una dirección más clara.",
+    "Avanzar con un enfoque más cuidadoso en privacidad, confidencialidad y exposición mínima de datos.",
+  ] as [string, string, string],
+  formLegend: "Selecciona tu modalidad",
+  fullNameLabel: "Nombre completo",
+  fullNamePlaceholder: "Nombre y apellidos",
+  emailLabel: "Correo electrónico",
+  emailPlaceholder: "tu@email.com",
+  brandNameLabel: "Nombre de marca o empresa",
+  brandNamePlaceholder: "Tu futura marca o empresa",
+  desiredDomainLabel: "Dominio preferido",
+  desiredDomainPlaceholder: "tuempresa.com",
+  activityTypeLabel: "Actividad del negocio",
+  activityTypePlaceholder: "Ejemplo: Promociones Comerciales online",
+  activityDescriptionLabel: "Descripción de la actividad",
+  activityDescriptionPlaceholder:
+    "Describe los productos o servicios de tu negocio, así como cualquier detalle relevante sobre tu actividad, clientes o necesidades específicas que quieras compartir para producir una web corporativa y un mensaje de mercado adecuado.",
+  helperText:
+    "Completa el formulario para solicitar una propuesta y recibir una respuesta de nuestro equipo.",
+  submitButton: "Enviar solicitud",
+  submittingButton: "Enviando...",
+  successEyebrow: "Solicitud enviada",
+  successTitle: "Hemos recibido tu solicitud",
+  successLockedText:
+    "Esta página queda bloqueada tras el envío para evitar solicitudes duplicadas. Recarga la página si necesitas iniciar una nueva solicitud.",
+  referenceLabel: "Referencia",
+  errorPrefix: "Error de envío:",
+};
 
 export default function HomePage() {
+  const browserLanguage = useBrowserLanguage();
+  const isSpanish = browserLanguage?.toLowerCase().startsWith("es") ?? false;
+
   return (
     <main>
       <div className="container">
@@ -150,7 +193,10 @@ export default function HomePage() {
         </section>
 
         <section id="application">
-          <ApplicationForm submissionSource="apextalenti-web-form" />
+          <ApplicationForm
+            submissionSource="apextalenti-web-form"
+            copy={isSpanish ? spanishCopy : undefined}
+          />
         </section>
       </div>
     </main>
