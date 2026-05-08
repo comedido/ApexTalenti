@@ -1,7 +1,6 @@
 "use client";
 
 import { Hero } from "@/components/Hero";
-import { ApplicationStatusLookup } from "@/components/ApplicationStatusLookup";
 import {
   ApplicationForm,
   defaultCopy,
@@ -279,9 +278,7 @@ export default function HomePage() {
   return (
     <main>
       <div className="container">
-        <Hero />
-
-        <ApplicationStatusLookup language={language} />
+        <Hero language={language} />
 
         <section
           className="trust-band"
