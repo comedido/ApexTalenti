@@ -4,6 +4,7 @@ import {
   createApplicationRequestSchema,
 } from "@apextalenti/contracts";
 import { createNocoRecord } from "../lib/nocodb.js";
+import { sendApplicationEmails } from "../lib/email.js";
 
 const router = Router();
 
@@ -77,6 +78,24 @@ router.post("/", async (req, res) => {
       provisioningNotes: "",
       lastProvisioningError: "",
     });
+
+    try {
+      await sendApplicationEmails({
+        applicationId,
+        customerId,
+        submittedAt,
+        submissionSource,
+        language: payload.customer.language,
+        brandName: payload.application.brandName,
+        desiredDomain: payload.application.desiredDomain,
+        activityType: payload.application.activityType,
+        activityDescription: payload.application.activityDescription,
+        primaryContactName: payload.customer.primaryContactName,
+        primaryContactEmail: payload.customer.primaryContactEmail,
+      });
+    } catch (emailError) {
+      console.error("Email sending failed:", emailError);
+    }
 
     const response: CreateApplicationResponse = {
       applicationId,

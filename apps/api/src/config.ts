@@ -35,4 +35,8 @@ export const config = {
 
   cloudflareAccountId: requireEnv("CLOUDFLARE_ACCOUNT_ID"),
   cloudflareRegistrarToken: requireEnv("CLOUDFLARE_REGISTRAR_TOKEN"),
+
+  resendApiKey: requireEnv("RESEND_API_KEY"),
+  emailFrom: requireEnv("EMAIL_FROM"),
+  emailAdminTo: requireEnv("EMAIL_ADMIN_TO"),
 };
