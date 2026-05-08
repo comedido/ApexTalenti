@@ -7,6 +7,7 @@ import {
   type ApplicationFormCopy,
   type ApplicationFormSkuOption,
 } from "@/features/application-form/components/ApplicationForm";
+import { ApplicationStatusLookup } from "@/components/ApplicationStatusLookup";
 import { useIsSpanishBrowser } from "../../lib/useIsSpanishBrowser";
 
 const spanishCopy: ApplicationFormCopy = {
@@ -97,9 +98,6 @@ export default function FormPage() {
                 privacidad operativa y selección de proveedores con políticas de
                 retención cero de datos siempre que sea viable.
               </p>
-              <a href="#application" className="td-primary-link">
-                Iniciar solicitud
-              </a>
             </>
           ) : (
             <>
@@ -114,11 +112,20 @@ export default function FormPage() {
                 privacy, and selecting providers with zero-retention data
                 policies whenever feasible.
               </p>
-              <a href="#application" className="td-primary-link">
-                Start request
-              </a>
             </>
           )}
+
+          {/* Hero actions: primary CTA + status lookup */}
+          <div className="hero__actions hero__actions--dual">
+            <a
+              href="#application"
+              className="hero__primary-link td-primary-link"
+            >
+              {isSpanish ? "Iniciar solicitud" : "Start request"}
+            </a>
+
+            <ApplicationStatusLookup language={language} />
+          </div>
         </div>
       </section>
 
