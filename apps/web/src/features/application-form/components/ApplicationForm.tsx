@@ -1,6 +1,12 @@
 "use client";
 
-import { ChangeEvent, FocusEvent, FormEvent, useMemo, useState } from "react";
+import {
+  ChangeEvent,
+  FocusEvent,
+  SyntheticEvent,
+  useMemo,
+  useState,
+} from "react";
 import { createApplication, checkDomainByName } from "../lib/api";
 import {
   initialApplicationFormValues,
@@ -17,7 +23,7 @@ import {
 
 type TouchedState = Partial<Record<keyof ApplicationFormValues, boolean>>;
 
-type ApplicationFormCopy = {
+export type ApplicationFormCopy = {
   eyebrow: string;
   title: string;
   description: string;
@@ -46,7 +52,7 @@ type ApplicationFormCopy = {
   errorPrefix: string;
 };
 
-type ApplicationFormSkuOption = {
+export type ApplicationFormSkuOption = {
   value: SkuValue;
   title: string;
   description: string;
@@ -54,7 +60,7 @@ type ApplicationFormSkuOption = {
   available: boolean;
 };
 
-const defaultCopy: ApplicationFormCopy = {
+export const defaultCopy: ApplicationFormCopy = {
   eyebrow: "Application",
   title: "Request the Basic package",
   description:
@@ -91,7 +97,7 @@ const defaultCopy: ApplicationFormCopy = {
   errorPrefix: "Submission error:",
 };
 
-const defaultSkuOptions: ApplicationFormSkuOption[] = [
+export const defaultSkuOptions: ApplicationFormSkuOption[] = [
   {
     value: "basic",
     title: "Basic",
@@ -118,14 +124,44 @@ const defaultSkuOptions: ApplicationFormSkuOption[] = [
   },
 ];
 
+function getDomainCheckUnavailableMessage(language: "en" | "es") {
+  return language === "es"
+    ? "No se ha podido comprobar la disponibilidad del dominio."
+    : "We could not verify the domain availability.";
+}
+
+function getDomainNotAvailableMessage(language: "en" | "es") {
+  return language === "es"
+    ? "Este dominio no está disponible. Por favor, elige otro .com."
+    : "This domain is not available. Please choose another .com domain.";
+}
+
+function getCheckingDomainMessage(language: "en" | "es") {
+  return language === "es"
+    ? "Comprobando disponibilidad del dominio..."
+    : "Checking domain availability...";
+}
+
+function getDomainAvailableMessage(language: "en" | "es") {
+  return language === "es" ? "Dominio disponible." : "Domain available.";
+}
+
+function getUnexpectedErrorMessage(language: "en" | "es") {
+  return language === "es"
+    ? "Error inesperado durante el envío."
+    : "Unexpected error during submission.";
+}
+
 export function ApplicationForm({
   submissionSource = "apextalenti-web-form",
   copy = defaultCopy,
   skuOptions = defaultSkuOptions,
+  language = "en",
 }: {
   submissionSource?: string;
   copy?: ApplicationFormCopy;
   skuOptions?: ApplicationFormSkuOption[];
+  language?: "en" | "es";
 }) {
   const [values, setValues] = useState<ApplicationFormValues>(
     initialApplicationFormValues,
@@ -209,8 +245,7 @@ export function ApplicationForm({
       if (!checkedDomain) {
         setErrors((current) => ({
           ...current,
-          desiredDomain:
-            "No se ha podido comprobar la disponibilidad del dominio.",
+          desiredDomain: getDomainCheckUnavailableMessage(language),
         }));
         return;
       }
@@ -218,8 +253,7 @@ export function ApplicationForm({
       if (!checkedDomain.registrable) {
         setErrors((current) => ({
           ...current,
-          desiredDomain:
-            "Este dominio no está disponible. Por favor, elige otro .com.",
+          desiredDomain: getDomainNotAvailableMessage(language),
         }));
         return;
       }
@@ -235,7 +269,7 @@ export function ApplicationForm({
         desiredDomain:
           error instanceof Error
             ? error.message
-            : "No se ha podido comprobar la disponibilidad del dominio.",
+            : getDomainCheckUnavailableMessage(language),
       }));
     } finally {
       setCheckingDomain(false);
@@ -254,7 +288,7 @@ export function ApplicationForm({
     setErrors(validateApplicationForm(nextValues));
   }
 
-  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: SyntheticEvent<HTMLFormElement>) {
     event.preventDefault();
 
     if (submitting || submitted || checkingDomain) {
@@ -290,7 +324,7 @@ export function ApplicationForm({
         primaryContactEmail: normalizedValues.email,
         billingEmail: normalizedValues.email,
         countryCode: "ES",
-        language: "en",
+        language,
       },
       application: {
         brandName: normalizedValues.brandName,
@@ -317,7 +351,7 @@ export function ApplicationForm({
       setServerMessage(
         error instanceof Error
           ? error.message
-          : "Unexpected error during submission.",
+          : getUnexpectedErrorMessage(language),
       );
     } finally {
       setSubmitting(false);
@@ -487,7 +521,7 @@ export function ApplicationForm({
             />
             {checkingDomain && !getFieldError("desiredDomain") ? (
               <span className="field-hint">
-                Comprobando disponibilidad del dominio...
+                {getCheckingDomainMessage(language)}
               </span>
             ) : null}
             {getFieldError("desiredDomain") ? (
@@ -495,7 +529,9 @@ export function ApplicationForm({
                 {getFieldError("desiredDomain")}
               </span>
             ) : domainChecked ? (
-              <span className="field-success">Dominio disponible.</span>
+              <span className="field-success">
+                {getDomainAvailableMessage(language)}
+              </span>
             ) : null}
           </label>
         </div>

@@ -1,10 +1,14 @@
 "use client";
 
 import { Hero } from "@/components/Hero";
-import { ApplicationForm } from "@/features/application-form/components/ApplicationForm";
-import { useBrowserLanguage } from "@/lib/useBrowserLanguage";
+import {
+  ApplicationForm,
+  defaultCopy,
+  type ApplicationFormCopy,
+} from "@/features/application-form/components/ApplicationForm";
+import { useIsSpanishBrowser } from "@/lib/useIsSpanishBrowser";
 
-const spanishCopy = {
+const spanishCopy: ApplicationFormCopy = {
   eyebrow: "Solicitud",
   title: "Solicita tu solución digital",
   description:
@@ -14,8 +18,8 @@ const spanishCopy = {
     "Presentar tu negocio con una imagen online más profesional, sólida y creíble.",
     "Alinear dominio, marca y presencia pública con una dirección más clara.",
     "Avanzar con un enfoque más cuidadoso en privacidad, confidencialidad y exposición mínima de datos.",
-  ] as [string, string, string],
-  formLegend: "Selecciona tu modalidad",
+  ],
+  formLegend: "Selecciona tu paquete",
   fullNameLabel: "Nombre completo",
   fullNamePlaceholder: "Nombre y apellidos",
   emailLabel: "Correo electrónico",
@@ -42,8 +46,10 @@ const spanishCopy = {
 };
 
 export default function HomePage() {
-  const browserLanguage = useBrowserLanguage();
-  const isSpanish = browserLanguage?.toLowerCase().startsWith("es") ?? false;
+  const isSpanish = useIsSpanishBrowser();
+
+  const copy = isSpanish ? spanishCopy : defaultCopy;
+  const language: "en" | "es" = isSpanish ? "es" : "en";
 
   return (
     <main>
@@ -195,7 +201,8 @@ export default function HomePage() {
         <section id="application">
           <ApplicationForm
             submissionSource="apextalenti-web-form"
-            copy={isSpanish ? spanishCopy : undefined}
+            copy={copy}
+            language={language}
           />
         </section>
       </div>
