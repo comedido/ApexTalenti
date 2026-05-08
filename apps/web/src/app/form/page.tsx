@@ -115,17 +115,7 @@ export default function FormPage() {
             </>
           )}
 
-          {/* Hero actions: primary CTA + status lookup */}
-          <div className="hero__actions hero__actions--dual">
-            <a
-              href="#application"
-              className="hero__primary-link td-primary-link"
-            >
-              {isSpanish ? "Iniciar solicitud" : "Start request"}
-            </a>
-
-            <ApplicationStatusLookup language={language} />
-          </div>
+          <ApplicationStatusLookup language={language} />
         </div>
       </section>
 
