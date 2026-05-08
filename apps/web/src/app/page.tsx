@@ -6,7 +6,7 @@ import {
   defaultCopy,
   type ApplicationFormCopy,
 } from "@/features/application-form/components/ApplicationForm";
-import { useIsSpanishBrowser } from "@/lib/useIsSpanishBrowser";
+import { useIsSpanishBrowser } from "../lib/useIsSpanishBrowser";
 
 const spanishCopy: ApplicationFormCopy = {
   eyebrow: "Solicitud",
